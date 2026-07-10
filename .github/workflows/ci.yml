@@ -1,0 +1,53 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Verify database and generated data are present
+        run: |
+          test -f database/sentinelx.db || (echo "::error::database/sentinelx.db is missing. Commit generated_data/*.csv and database/sentinelx.db to the repo -- CI does not regenerate synthetic data from the raw Kaggle dataset." && exit 1)
+          test -d generated_data || (echo "::error::generated_data/ is missing." && exit 1)
+
+      - name: Compile-check every Python file
+        run: |
+          python -m py_compile app.py
+          find . -name "*.py" -not -path "./venv/*" -not -path "./.git/*" -exec python -m py_compile {} \;
+
+      - name: Run pytest suite
+        run: python -m pytest tests/ -v
+
+      - name: Confirm real database was not mutated by tests
+        run: |
+          python -c "
+          import sqlite3
+          conn = sqlite3.connect('database/sentinelx.db')
+          cur = conn.cursor()
+          cur.execute('SELECT COUNT(*) FROM case_notes')
+          notes = cur.fetchone()[0]
+          cur.execute('SELECT COUNT(*) FROM audit_log')
+          audit = cur.fetchone()[0]
+          print(f'case_notes: {notes}, audit_log: {audit}')
+          "

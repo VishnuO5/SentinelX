@@ -1,0 +1,6 @@
+run_id,policy_description,cases_affected_count,cases_would_have_flagged,cases_would_have_missed,run_at
+CF-001,Lower report threshold from 5 to 3 reports before auto-opening a case,0,0,0,2026-06-01 00:00:00
+CF-002,Raise report threshold from 5 to 10 reports before auto-opening a case,50,0,50,2026-06-01 00:00:00
+CF-003,Auto-flag any account under 14 days old regardless of other signals,0,0,0,2026-06-01 00:00:00
+CF-004,Auto-flag any account sharing a device with 3+ other accounts,0,0,0,2026-06-01 00:00:00
+CF-005,Require escalation before any case can resolve (no direct open -> resolved),50,0,50,2026-06-01 00:00:00

@@ -1,0 +1,405 @@
+event_id,case_id,event_type,event_timestamp,event_description
+EVT-000001,CASE-00001,case_opened,2025-12-20 00:00:00,Case opened following signal threshold breach.
+EVT-000002,CASE-00002,case_opened,2026-03-23 00:00:00,Case opened following signal threshold breach.
+EVT-000003,CASE-00002,evidence_collected,2026-05-18 09:41:41,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000004,CASE-00003,case_opened,2026-04-27 00:00:00,Case opened following signal threshold breach.
+EVT-000005,CASE-00004,case_opened,2026-01-01 00:00:00,Case opened following signal threshold breach.
+EVT-000006,CASE-00004,evidence_collected,2026-01-01 08:57:36,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000007,CASE-00004,resolved,2026-01-02 00:00:00,Investigation concluded; action taken on account.
+EVT-000008,CASE-00005,case_opened,2026-05-09 00:00:00,Case opened following signal threshold breach.
+EVT-000009,CASE-00005,evidence_collected,2026-05-24 04:19:35,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000010,CASE-00006,case_opened,2026-01-23 00:00:00,Case opened following signal threshold breach.
+EVT-000011,CASE-00007,case_opened,2025-12-17 00:00:00,Case opened following signal threshold breach.
+EVT-000012,CASE-00007,evidence_collected,2025-12-18 16:54:51,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000013,CASE-00007,resolved,2025-12-21 00:00:00,Investigation concluded; action taken on account.
+EVT-000014,CASE-00008,case_opened,2026-01-02 00:00:00,Case opened following signal threshold breach.
+EVT-000015,CASE-00008,evidence_collected,2026-03-27 11:00:44,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000016,CASE-00008,escalated,2026-05-14 01:37:53,Case escalated to senior review.
+EVT-000017,CASE-00009,case_opened,2026-04-22 00:00:00,Case opened following signal threshold breach.
+EVT-000018,CASE-00009,evidence_collected,2026-04-25 15:03:34,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000019,CASE-00009,resolved,2026-04-28 00:00:00,Investigation concluded; action taken on account.
+EVT-000020,CASE-00010,case_opened,2026-04-23 00:00:00,Case opened following signal threshold breach.
+EVT-000021,CASE-00010,evidence_collected,2026-05-15 19:20:59,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000022,CASE-00011,case_opened,2026-05-06 00:00:00,Case opened following signal threshold breach.
+EVT-000023,CASE-00012,case_opened,2026-05-08 00:00:00,Case opened following signal threshold breach.
+EVT-000024,CASE-00012,evidence_collected,2026-05-19 12:00:25,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000025,CASE-00012,escalated,2026-05-24 23:46:36,Case escalated to senior review.
+EVT-000026,CASE-00013,case_opened,2025-12-29 00:00:00,Case opened following signal threshold breach.
+EVT-000027,CASE-00013,evidence_collected,2026-03-04 10:41:22,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000028,CASE-00013,escalated,2026-05-06 13:16:41,Case escalated to senior review.
+EVT-000029,CASE-00014,case_opened,2026-02-04 00:00:00,Case opened following signal threshold breach.
+EVT-000030,CASE-00015,case_opened,2026-05-12 00:00:00,Case opened following signal threshold breach.
+EVT-000031,CASE-00015,evidence_collected,2026-05-19 11:23:47,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000032,CASE-00015,escalated,2026-05-27 01:27:04,Case escalated to senior review.
+EVT-000033,CASE-00016,case_opened,2026-01-05 00:00:00,Case opened following signal threshold breach.
+EVT-000034,CASE-00016,evidence_collected,2026-05-04 01:31:00,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000035,CASE-00017,case_opened,2026-05-21 00:00:00,Case opened following signal threshold breach.
+EVT-000036,CASE-00017,evidence_collected,2026-05-29 10:44:44,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000037,CASE-00018,case_opened,2026-05-12 00:00:00,Case opened following signal threshold breach.
+EVT-000038,CASE-00018,evidence_collected,2026-05-24 18:19:28,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000039,CASE-00019,case_opened,2026-02-24 00:00:00,Case opened following signal threshold breach.
+EVT-000040,CASE-00019,evidence_collected,2026-04-15 19:24:58,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000041,CASE-00019,escalated,2026-05-23 20:05:39,Case escalated to senior review.
+EVT-000042,CASE-00020,case_opened,2025-12-21 00:00:00,Case opened following signal threshold breach.
+EVT-000043,CASE-00020,evidence_collected,2026-02-18 16:20:16,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000044,CASE-00020,escalated,2026-05-18 05:04:24,Case escalated to senior review.
+EVT-000045,CASE-00021,case_opened,2026-02-27 00:00:00,Case opened following signal threshold breach.
+EVT-000046,CASE-00021,evidence_collected,2026-04-19 23:12:02,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000047,CASE-00021,escalated,2026-05-12 07:53:40,Case escalated to senior review.
+EVT-000048,CASE-00022,case_opened,2025-12-12 00:00:00,Case opened following signal threshold breach.
+EVT-000049,CASE-00022,evidence_collected,2026-02-19 18:57:24,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000050,CASE-00022,escalated,2026-05-23 10:47:59,Case escalated to senior review.
+EVT-000051,CASE-00023,case_opened,2025-12-28 00:00:00,Case opened following signal threshold breach.
+EVT-000052,CASE-00023,evidence_collected,2026-04-13 02:51:09,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000053,CASE-00024,case_opened,2026-04-21 00:00:00,Case opened following signal threshold breach.
+EVT-000054,CASE-00024,evidence_collected,2026-04-23 17:45:18,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000055,CASE-00024,resolved,2026-04-28 00:00:00,Investigation concluded; action taken on account.
+EVT-000056,CASE-00025,case_opened,2025-12-20 00:00:00,Case opened following signal threshold breach.
+EVT-000057,CASE-00025,evidence_collected,2026-03-25 22:56:30,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000058,CASE-00026,case_opened,2026-05-18 00:00:00,Case opened following signal threshold breach.
+EVT-000059,CASE-00026,evidence_collected,2026-05-30 10:42:11,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000060,CASE-00027,case_opened,2026-03-13 00:00:00,Case opened following signal threshold breach.
+EVT-000061,CASE-00027,evidence_collected,2026-03-15 15:19:09,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000062,CASE-00027,resolved,2026-03-18 00:00:00,Investigation concluded; action taken on account.
+EVT-000063,CASE-00028,case_opened,2026-04-08 00:00:00,Case opened following signal threshold breach.
+EVT-000064,CASE-00028,evidence_collected,2026-05-09 10:08:36,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000065,CASE-00028,escalated,2026-05-26 07:23:43,Case escalated to senior review.
+EVT-000066,CASE-00029,case_opened,2025-12-16 00:00:00,Case opened following signal threshold breach.
+EVT-000067,CASE-00029,evidence_collected,2025-12-19 13:37:22,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000068,CASE-00029,resolved,2025-12-23 00:00:00,Investigation concluded; action taken on account.
+EVT-000069,CASE-00030,case_opened,2026-04-26 00:00:00,Case opened following signal threshold breach.
+EVT-000070,CASE-00030,evidence_collected,2026-05-18 13:00:21,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000071,CASE-00030,escalated,2026-05-24 20:00:51,Case escalated to senior review.
+EVT-000072,CASE-00031,case_opened,2026-03-30 00:00:00,Case opened following signal threshold breach.
+EVT-000073,CASE-00031,evidence_collected,2026-05-01 08:58:58,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000074,CASE-00031,escalated,2026-05-27 00:48:57,Case escalated to senior review.
+EVT-000075,CASE-00032,case_opened,2026-01-03 00:00:00,Case opened following signal threshold breach.
+EVT-000076,CASE-00032,evidence_collected,2026-01-06 04:33:04,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000077,CASE-00032,resolved,2026-01-09 00:00:00,Investigation concluded; action taken on account.
+EVT-000078,CASE-00033,case_opened,2026-04-27 00:00:00,Case opened following signal threshold breach.
+EVT-000079,CASE-00033,evidence_collected,2026-04-28 04:37:47,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000080,CASE-00033,resolved,2026-04-29 00:00:00,Investigation concluded; action taken on account.
+EVT-000081,CASE-00034,case_opened,2026-05-04 00:00:00,Case opened following signal threshold breach.
+EVT-000082,CASE-00034,evidence_collected,2026-05-25 20:47:32,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000083,CASE-00035,case_opened,2025-12-09 00:00:00,Case opened following signal threshold breach.
+EVT-000084,CASE-00035,evidence_collected,2025-12-14 13:05:33,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000085,CASE-00035,resolved,2025-12-19 00:00:00,Investigation concluded; action taken on account.
+EVT-000086,CASE-00036,case_opened,2026-02-23 00:00:00,Case opened following signal threshold breach.
+EVT-000087,CASE-00036,evidence_collected,2026-02-26 18:55:57,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000088,CASE-00036,resolved,2026-03-05 00:00:00,Investigation concluded; action taken on account.
+EVT-000089,CASE-00037,case_opened,2026-01-17 00:00:00,Case opened following signal threshold breach.
+EVT-000090,CASE-00037,evidence_collected,2026-03-15 16:54:14,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000091,CASE-00037,escalated,2026-05-01 22:01:52,Case escalated to senior review.
+EVT-000092,CASE-00038,case_opened,2025-12-09 00:00:00,Case opened following signal threshold breach.
+EVT-000093,CASE-00039,case_opened,2025-12-19 00:00:00,Case opened following signal threshold breach.
+EVT-000094,CASE-00039,evidence_collected,2026-02-20 14:56:58,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000095,CASE-00039,escalated,2026-04-22 23:32:14,Case escalated to senior review.
+EVT-000096,CASE-00040,case_opened,2026-03-18 00:00:00,Case opened following signal threshold breach.
+EVT-000097,CASE-00040,evidence_collected,2026-03-19 04:20:21,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000098,CASE-00040,resolved,2026-03-21 00:00:00,Investigation concluded; action taken on account.
+EVT-000099,CASE-00041,case_opened,2026-06-01 00:00:00,Case opened following signal threshold breach.
+EVT-000100,CASE-00041,evidence_collected,2026-06-01 00:26:26,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000101,CASE-00041,escalated,2026-06-01 00:52:10,Case escalated to senior review.
+EVT-000102,CASE-00042,case_opened,2026-01-23 00:00:00,Case opened following signal threshold breach.
+EVT-000103,CASE-00043,case_opened,2025-12-20 00:00:00,Case opened following signal threshold breach.
+EVT-000104,CASE-00043,evidence_collected,2026-04-12 10:29:21,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000105,CASE-00044,case_opened,2026-02-26 00:00:00,Case opened following signal threshold breach.
+EVT-000106,CASE-00044,evidence_collected,2026-05-03 07:36:18,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000107,CASE-00045,case_opened,2025-12-30 00:00:00,Case opened following signal threshold breach.
+EVT-000108,CASE-00045,evidence_collected,2026-03-04 15:32:57,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000109,CASE-00045,escalated,2026-04-26 23:49:28,Case escalated to senior review.
+EVT-000110,CASE-00046,case_opened,2026-05-28 00:00:00,Case opened following signal threshold breach.
+EVT-000111,CASE-00047,case_opened,2026-03-15 00:00:00,Case opened following signal threshold breach.
+EVT-000112,CASE-00047,evidence_collected,2026-05-26 02:58:01,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000113,CASE-00048,case_opened,2026-04-01 00:00:00,Case opened following signal threshold breach.
+EVT-000114,CASE-00049,case_opened,2026-01-28 00:00:00,Case opened following signal threshold breach.
+EVT-000115,CASE-00050,case_opened,2026-04-30 00:00:00,Case opened following signal threshold breach.
+EVT-000116,CASE-00050,evidence_collected,2026-05-04 20:31:36,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000117,CASE-00050,resolved,2026-05-09 00:00:00,Investigation concluded; action taken on account.
+EVT-000118,CASE-00051,case_opened,2026-03-26 00:00:00,Case opened following signal threshold breach.
+EVT-000119,CASE-00051,evidence_collected,2026-03-28 02:47:37,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000120,CASE-00051,resolved,2026-03-30 00:00:00,Investigation concluded; action taken on account.
+EVT-000121,CASE-00052,case_opened,2026-03-14 00:00:00,Case opened following signal threshold breach.
+EVT-000122,CASE-00052,evidence_collected,2026-03-18 12:50:53,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000123,CASE-00052,resolved,2026-03-25 00:00:00,Investigation concluded; action taken on account.
+EVT-000124,CASE-00053,case_opened,2026-02-09 00:00:00,Case opened following signal threshold breach.
+EVT-000125,CASE-00053,evidence_collected,2026-02-10 02:55:58,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000126,CASE-00053,resolved,2026-02-11 00:00:00,Investigation concluded; action taken on account.
+EVT-000127,CASE-00054,case_opened,2026-04-05 00:00:00,Case opened following signal threshold breach.
+EVT-000128,CASE-00055,case_opened,2026-05-27 00:00:00,Case opened following signal threshold breach.
+EVT-000129,CASE-00055,evidence_collected,2026-05-30 01:50:35,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000130,CASE-00056,case_opened,2026-05-31 00:00:00,Case opened following signal threshold breach.
+EVT-000131,CASE-00057,case_opened,2026-04-04 00:00:00,Case opened following signal threshold breach.
+EVT-000132,CASE-00058,case_opened,2026-03-09 00:00:00,Case opened following signal threshold breach.
+EVT-000133,CASE-00059,case_opened,2026-03-22 00:00:00,Case opened following signal threshold breach.
+EVT-000134,CASE-00059,evidence_collected,2026-03-23 20:54:50,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000135,CASE-00059,resolved,2026-03-26 00:00:00,Investigation concluded; action taken on account.
+EVT-000136,CASE-00060,case_opened,2026-01-06 00:00:00,Case opened following signal threshold breach.
+EVT-000137,CASE-00060,evidence_collected,2026-01-08 12:31:54,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000138,CASE-00060,resolved,2026-01-10 00:00:00,Investigation concluded; action taken on account.
+EVT-000139,CASE-00061,case_opened,2026-02-17 00:00:00,Case opened following signal threshold breach.
+EVT-000140,CASE-00061,evidence_collected,2026-05-11 19:46:32,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000141,CASE-00062,case_opened,2026-05-08 00:00:00,Case opened following signal threshold breach.
+EVT-000142,CASE-00062,evidence_collected,2026-05-11 02:11:12,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000143,CASE-00062,resolved,2026-05-14 00:00:00,Investigation concluded; action taken on account.
+EVT-000144,CASE-00063,case_opened,2026-02-16 00:00:00,Case opened following signal threshold breach.
+EVT-000145,CASE-00063,evidence_collected,2026-02-23 16:32:29,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000146,CASE-00063,resolved,2026-03-02 00:00:00,Investigation concluded; action taken on account.
+EVT-000147,CASE-00064,case_opened,2025-12-11 00:00:00,Case opened following signal threshold breach.
+EVT-000148,CASE-00065,case_opened,2026-02-18 00:00:00,Case opened following signal threshold breach.
+EVT-000149,CASE-00065,evidence_collected,2026-04-19 22:00:28,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000150,CASE-00065,escalated,2026-05-22 09:56:20,Case escalated to senior review.
+EVT-000151,CASE-00066,case_opened,2026-03-30 00:00:00,Case opened following signal threshold breach.
+EVT-000152,CASE-00066,evidence_collected,2026-05-09 10:07:41,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000153,CASE-00067,case_opened,2026-01-15 00:00:00,Case opened following signal threshold breach.
+EVT-000154,CASE-00067,evidence_collected,2026-01-16 03:00:58,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000155,CASE-00067,resolved,2026-01-18 00:00:00,Investigation concluded; action taken on account.
+EVT-000156,CASE-00068,case_opened,2026-04-16 00:00:00,Case opened following signal threshold breach.
+EVT-000157,CASE-00068,evidence_collected,2026-05-06 17:40:09,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000158,CASE-00068,escalated,2026-05-21 11:37:22,Case escalated to senior review.
+EVT-000159,CASE-00069,case_opened,2026-03-30 00:00:00,Case opened following signal threshold breach.
+EVT-000160,CASE-00070,case_opened,2026-01-12 00:00:00,Case opened following signal threshold breach.
+EVT-000161,CASE-00071,case_opened,2025-12-17 00:00:00,Case opened following signal threshold breach.
+EVT-000162,CASE-00072,case_opened,2026-04-02 00:00:00,Case opened following signal threshold breach.
+EVT-000163,CASE-00072,evidence_collected,2026-05-10 01:31:34,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000164,CASE-00073,case_opened,2026-01-28 00:00:00,Case opened following signal threshold breach.
+EVT-000165,CASE-00073,evidence_collected,2026-01-30 11:20:18,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000166,CASE-00073,resolved,2026-02-01 00:00:00,Investigation concluded; action taken on account.
+EVT-000167,CASE-00074,case_opened,2026-05-17 00:00:00,Case opened following signal threshold breach.
+EVT-000168,CASE-00074,evidence_collected,2026-05-30 12:11:48,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000169,CASE-00075,case_opened,2026-06-01 00:00:00,Case opened following signal threshold breach.
+EVT-000170,CASE-00075,evidence_collected,2026-06-03 06:04:10,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000171,CASE-00075,resolved,2026-06-06 00:00:00,Investigation concluded; action taken on account.
+EVT-000172,CASE-00076,case_opened,2026-03-20 00:00:00,Case opened following signal threshold breach.
+EVT-000173,CASE-00076,evidence_collected,2026-03-26 11:56:15,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000174,CASE-00076,resolved,2026-04-01 00:00:00,Investigation concluded; action taken on account.
+EVT-000175,CASE-00077,case_opened,2026-04-23 00:00:00,Case opened following signal threshold breach.
+EVT-000176,CASE-00077,evidence_collected,2026-05-20 14:55:28,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000177,CASE-00078,case_opened,2026-04-07 00:00:00,Case opened following signal threshold breach.
+EVT-000178,CASE-00079,case_opened,2026-03-13 00:00:00,Case opened following signal threshold breach.
+EVT-000179,CASE-00080,case_opened,2026-01-03 00:00:00,Case opened following signal threshold breach.
+EVT-000180,CASE-00080,evidence_collected,2026-01-08 11:52:40,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000181,CASE-00080,resolved,2026-01-12 00:00:00,Investigation concluded; action taken on account.
+EVT-000182,CASE-00081,case_opened,2026-05-18 00:00:00,Case opened following signal threshold breach.
+EVT-000183,CASE-00082,case_opened,2026-05-15 00:00:00,Case opened following signal threshold breach.
+EVT-000184,CASE-00083,case_opened,2026-02-18 00:00:00,Case opened following signal threshold breach.
+EVT-000185,CASE-00084,case_opened,2026-01-04 00:00:00,Case opened following signal threshold breach.
+EVT-000186,CASE-00085,case_opened,2026-02-14 00:00:00,Case opened following signal threshold breach.
+EVT-000187,CASE-00085,evidence_collected,2026-04-07 07:49:18,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000188,CASE-00085,escalated,2026-05-07 10:59:23,Case escalated to senior review.
+EVT-000189,CASE-00086,case_opened,2026-04-10 00:00:00,Case opened following signal threshold breach.
+EVT-000190,CASE-00086,evidence_collected,2026-05-02 11:40:39,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000191,CASE-00086,escalated,2026-05-24 04:25:23,Case escalated to senior review.
+EVT-000192,CASE-00087,case_opened,2026-03-26 00:00:00,Case opened following signal threshold breach.
+EVT-000193,CASE-00087,evidence_collected,2026-03-27 07:26:40,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000194,CASE-00087,resolved,2026-03-29 00:00:00,Investigation concluded; action taken on account.
+EVT-000195,CASE-00088,case_opened,2026-02-04 00:00:00,Case opened following signal threshold breach.
+EVT-000196,CASE-00088,evidence_collected,2026-04-06 03:20:16,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000197,CASE-00088,escalated,2026-05-24 21:53:23,Case escalated to senior review.
+EVT-000198,CASE-00089,case_opened,2026-05-30 00:00:00,Case opened following signal threshold breach.
+EVT-000199,CASE-00089,evidence_collected,2026-06-03 17:33:41,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000200,CASE-00089,resolved,2026-06-09 00:00:00,Investigation concluded; action taken on account.
+EVT-000201,CASE-00090,case_opened,2026-05-14 00:00:00,Case opened following signal threshold breach.
+EVT-000202,CASE-00090,evidence_collected,2026-05-25 11:29:55,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000203,CASE-00091,case_opened,2026-04-29 00:00:00,Case opened following signal threshold breach.
+EVT-000204,CASE-00091,evidence_collected,2026-05-19 21:04:47,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000205,CASE-00091,escalated,2026-05-26 14:00:43,Case escalated to senior review.
+EVT-000206,CASE-00092,case_opened,2026-03-31 00:00:00,Case opened following signal threshold breach.
+EVT-000207,CASE-00092,evidence_collected,2026-04-24 05:40:22,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000208,CASE-00092,escalated,2026-05-14 04:17:44,Case escalated to senior review.
+EVT-000209,CASE-00093,case_opened,2026-04-22 00:00:00,Case opened following signal threshold breach.
+EVT-000210,CASE-00093,evidence_collected,2026-04-27 13:01:28,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000211,CASE-00093,resolved,2026-05-06 00:00:00,Investigation concluded; action taken on account.
+EVT-000212,CASE-00094,case_opened,2025-12-27 00:00:00,Case opened following signal threshold breach.
+EVT-000213,CASE-00095,case_opened,2025-12-14 00:00:00,Case opened following signal threshold breach.
+EVT-000214,CASE-00096,case_opened,2026-03-26 00:00:00,Case opened following signal threshold breach.
+EVT-000215,CASE-00097,case_opened,2026-01-11 00:00:00,Case opened following signal threshold breach.
+EVT-000216,CASE-00097,evidence_collected,2026-05-03 22:30:39,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000217,CASE-00098,case_opened,2026-03-21 00:00:00,Case opened following signal threshold breach.
+EVT-000218,CASE-00098,evidence_collected,2026-05-22 09:53:06,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000219,CASE-00099,case_opened,2026-04-10 00:00:00,Case opened following signal threshold breach.
+EVT-000220,CASE-00099,evidence_collected,2026-05-04 22:05:41,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000221,CASE-00099,escalated,2026-05-17 06:44:31,Case escalated to senior review.
+EVT-000222,CASE-00100,case_opened,2026-03-29 00:00:00,Case opened following signal threshold breach.
+EVT-000223,CASE-00101,case_opened,2025-12-21 00:00:00,Case opened following signal threshold breach.
+EVT-000224,CASE-00101,evidence_collected,2025-12-27 13:23:35,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000225,CASE-00101,resolved,2026-01-04 00:00:00,Investigation concluded; action taken on account.
+EVT-000226,CASE-00102,case_opened,2026-05-21 00:00:00,Case opened following signal threshold breach.
+EVT-000227,CASE-00103,case_opened,2026-04-29 00:00:00,Case opened following signal threshold breach.
+EVT-000228,CASE-00103,evidence_collected,2026-05-19 20:46:51,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000229,CASE-00103,escalated,2026-05-26 18:08:56,Case escalated to senior review.
+EVT-000230,CASE-00104,case_opened,2026-02-08 00:00:00,Case opened following signal threshold breach.
+EVT-000231,CASE-00104,evidence_collected,2026-02-13 15:08:02,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000232,CASE-00104,resolved,2026-02-17 00:00:00,Investigation concluded; action taken on account.
+EVT-000233,CASE-00105,case_opened,2026-05-04 00:00:00,Case opened following signal threshold breach.
+EVT-000234,CASE-00106,case_opened,2026-01-13 00:00:00,Case opened following signal threshold breach.
+EVT-000235,CASE-00107,case_opened,2026-01-03 00:00:00,Case opened following signal threshold breach.
+EVT-000236,CASE-00107,evidence_collected,2026-05-16 06:03:33,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000237,CASE-00108,case_opened,2026-04-30 00:00:00,Case opened following signal threshold breach.
+EVT-000238,CASE-00109,case_opened,2026-02-28 00:00:00,Case opened following signal threshold breach.
+EVT-000239,CASE-00110,case_opened,2026-04-09 00:00:00,Case opened following signal threshold breach.
+EVT-000240,CASE-00110,evidence_collected,2026-05-08 09:26:29,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000241,CASE-00111,case_opened,2026-03-03 00:00:00,Case opened following signal threshold breach.
+EVT-000242,CASE-00111,evidence_collected,2026-03-08 14:07:34,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000243,CASE-00111,resolved,2026-03-13 00:00:00,Investigation concluded; action taken on account.
+EVT-000244,CASE-00112,case_opened,2026-04-02 00:00:00,Case opened following signal threshold breach.
+EVT-000245,CASE-00112,evidence_collected,2026-05-21 08:39:54,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000246,CASE-00113,case_opened,2026-02-16 00:00:00,Case opened following signal threshold breach.
+EVT-000247,CASE-00114,case_opened,2026-03-08 00:00:00,Case opened following signal threshold breach.
+EVT-000248,CASE-00114,evidence_collected,2026-03-14 15:04:33,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000249,CASE-00114,resolved,2026-03-21 00:00:00,Investigation concluded; action taken on account.
+EVT-000250,CASE-00115,case_opened,2026-03-25 00:00:00,Case opened following signal threshold breach.
+EVT-000251,CASE-00115,evidence_collected,2026-05-08 15:47:00,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000252,CASE-00116,case_opened,2026-02-24 00:00:00,Case opened following signal threshold breach.
+EVT-000253,CASE-00117,case_opened,2026-04-06 00:00:00,Case opened following signal threshold breach.
+EVT-000254,CASE-00117,evidence_collected,2026-05-21 03:46:51,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000255,CASE-00118,case_opened,2026-03-04 00:00:00,Case opened following signal threshold breach.
+EVT-000256,CASE-00118,evidence_collected,2026-04-08 06:44:24,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000257,CASE-00118,escalated,2026-05-15 14:50:32,Case escalated to senior review.
+EVT-000258,CASE-00119,case_opened,2026-04-05 00:00:00,Case opened following signal threshold breach.
+EVT-000259,CASE-00120,case_opened,2026-02-19 00:00:00,Case opened following signal threshold breach.
+EVT-000260,CASE-00120,evidence_collected,2026-04-09 17:47:27,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000261,CASE-00120,escalated,2026-05-26 21:36:00,Case escalated to senior review.
+EVT-000262,CASE-00121,case_opened,2026-05-15 00:00:00,Case opened following signal threshold breach.
+EVT-000263,CASE-00121,evidence_collected,2026-05-25 04:53:34,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000264,CASE-00121,escalated,2026-05-28 02:15:24,Case escalated to senior review.
+EVT-000265,CASE-00122,case_opened,2025-12-19 00:00:00,Case opened following signal threshold breach.
+EVT-000266,CASE-00122,evidence_collected,2025-12-24 12:02:28,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000267,CASE-00122,resolved,2025-12-30 00:00:00,Investigation concluded; action taken on account.
+EVT-000268,CASE-00123,case_opened,2026-05-25 00:00:00,Case opened following signal threshold breach.
+EVT-000269,CASE-00124,case_opened,2026-04-17 00:00:00,Case opened following signal threshold breach.
+EVT-000270,CASE-00124,evidence_collected,2026-05-05 15:27:06,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000271,CASE-00124,escalated,2026-05-29 10:50:12,Case escalated to senior review.
+EVT-000272,CASE-00125,case_opened,2026-05-05 00:00:00,Case opened following signal threshold breach.
+EVT-000273,CASE-00125,evidence_collected,2026-05-08 14:13:40,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000274,CASE-00125,resolved,2026-05-11 00:00:00,Investigation concluded; action taken on account.
+EVT-000275,CASE-00126,case_opened,2026-02-10 00:00:00,Case opened following signal threshold breach.
+EVT-000276,CASE-00127,case_opened,2026-01-05 00:00:00,Case opened following signal threshold breach.
+EVT-000277,CASE-00127,evidence_collected,2026-04-13 09:33:55,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000278,CASE-00128,case_opened,2026-05-21 00:00:00,Case opened following signal threshold breach.
+EVT-000279,CASE-00128,evidence_collected,2026-05-21 12:53:21,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000280,CASE-00128,resolved,2026-05-22 00:00:00,Investigation concluded; action taken on account.
+EVT-000281,CASE-00129,case_opened,2026-02-28 00:00:00,Case opened following signal threshold breach.
+EVT-000282,CASE-00129,evidence_collected,2026-03-01 01:23:41,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000283,CASE-00129,resolved,2026-03-02 00:00:00,Investigation concluded; action taken on account.
+EVT-000284,CASE-00130,case_opened,2025-12-24 00:00:00,Case opened following signal threshold breach.
+EVT-000285,CASE-00130,evidence_collected,2026-02-26 18:43:45,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000286,CASE-00130,escalated,2026-05-16 15:07:51,Case escalated to senior review.
+EVT-000287,CASE-00131,case_opened,2026-03-17 00:00:00,Case opened following signal threshold breach.
+EVT-000288,CASE-00131,evidence_collected,2026-04-24 19:09:14,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000289,CASE-00131,escalated,2026-05-24 23:31:26,Case escalated to senior review.
+EVT-000290,CASE-00132,case_opened,2026-03-10 00:00:00,Case opened following signal threshold breach.
+EVT-000291,CASE-00132,evidence_collected,2026-03-16 02:19:52,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000292,CASE-00132,resolved,2026-03-22 00:00:00,Investigation concluded; action taken on account.
+EVT-000293,CASE-00133,case_opened,2026-01-11 00:00:00,Case opened following signal threshold breach.
+EVT-000294,CASE-00133,evidence_collected,2026-03-29 13:58:26,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000295,CASE-00134,case_opened,2026-02-14 00:00:00,Case opened following signal threshold breach.
+EVT-000296,CASE-00134,evidence_collected,2026-02-18 23:37:14,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000297,CASE-00134,resolved,2026-02-25 00:00:00,Investigation concluded; action taken on account.
+EVT-000298,CASE-00135,case_opened,2025-12-26 00:00:00,Case opened following signal threshold breach.
+EVT-000299,CASE-00135,evidence_collected,2026-02-22 09:10:12,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000300,CASE-00135,escalated,2026-05-23 19:09:29,Case escalated to senior review.
+EVT-000301,CASE-00136,case_opened,2026-01-12 00:00:00,Case opened following signal threshold breach.
+EVT-000302,CASE-00137,case_opened,2026-03-20 00:00:00,Case opened following signal threshold breach.
+EVT-000303,CASE-00137,evidence_collected,2026-05-24 19:24:29,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000304,CASE-00138,case_opened,2026-01-04 00:00:00,Case opened following signal threshold breach.
+EVT-000305,CASE-00138,evidence_collected,2026-04-01 02:09:12,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000306,CASE-00138,escalated,2026-04-29 17:40:38,Case escalated to senior review.
+EVT-000307,CASE-00139,case_opened,2026-02-08 00:00:00,Case opened following signal threshold breach.
+EVT-000308,CASE-00139,evidence_collected,2026-02-12 04:52:40,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000309,CASE-00139,resolved,2026-02-19 00:00:00,Investigation concluded; action taken on account.
+EVT-000310,CASE-00140,case_opened,2026-01-22 00:00:00,Case opened following signal threshold breach.
+EVT-000311,CASE-00140,evidence_collected,2026-01-29 19:27:01,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000312,CASE-00140,resolved,2026-02-04 00:00:00,Investigation concluded; action taken on account.
+EVT-000313,CASE-00141,case_opened,2025-12-15 00:00:00,Case opened following signal threshold breach.
+EVT-000314,CASE-00142,case_opened,2026-01-21 00:00:00,Case opened following signal threshold breach.
+EVT-000315,CASE-00142,evidence_collected,2026-04-12 02:43:20,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000316,CASE-00142,escalated,2026-04-25 16:36:42,Case escalated to senior review.
+EVT-000317,CASE-00143,case_opened,2026-04-02 00:00:00,Case opened following signal threshold breach.
+EVT-000318,CASE-00143,evidence_collected,2026-05-01 18:37:13,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000319,CASE-00143,escalated,2026-05-15 02:34:39,Case escalated to senior review.
+EVT-000320,CASE-00144,case_opened,2026-04-12 00:00:00,Case opened following signal threshold breach.
+EVT-000321,CASE-00144,evidence_collected,2026-05-24 17:05:20,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000322,CASE-00145,case_opened,2026-05-21 00:00:00,Case opened following signal threshold breach.
+EVT-000323,CASE-00145,evidence_collected,2026-05-30 10:04:19,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000324,CASE-00146,case_opened,2025-12-27 00:00:00,Case opened following signal threshold breach.
+EVT-000325,CASE-00147,case_opened,2026-02-15 00:00:00,Case opened following signal threshold breach.
+EVT-000326,CASE-00147,evidence_collected,2026-04-19 17:51:04,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000327,CASE-00148,case_opened,2026-01-26 00:00:00,Case opened following signal threshold breach.
+EVT-000328,CASE-00148,evidence_collected,2026-01-27 23:22:02,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000329,CASE-00148,resolved,2026-01-30 00:00:00,Investigation concluded; action taken on account.
+EVT-000330,CASE-00149,case_opened,2025-12-16 00:00:00,Case opened following signal threshold breach.
+EVT-000331,CASE-00150,case_opened,2026-02-13 00:00:00,Case opened following signal threshold breach.
+EVT-000332,CASE-00150,evidence_collected,2026-05-07 03:38:10,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000333,CASE-00151,case_opened,2025-12-05 00:00:00,Case opened following signal threshold breach.
+EVT-000334,CASE-00151,evidence_collected,2025-12-05 10:29:46,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000335,CASE-00151,resolved,2025-12-06 00:00:00,Investigation concluded; action taken on account.
+EVT-000336,CASE-00152,case_opened,2026-05-01 00:00:00,Case opened following signal threshold breach.
+EVT-000337,CASE-00152,evidence_collected,2026-05-02 19:09:02,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000338,CASE-00152,resolved,2026-05-04 00:00:00,Investigation concluded; action taken on account.
+EVT-000339,CASE-00153,case_opened,2025-12-13 00:00:00,Case opened following signal threshold breach.
+EVT-000340,CASE-00153,evidence_collected,2026-03-04 12:22:26,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000341,CASE-00153,escalated,2026-04-20 14:26:11,Case escalated to senior review.
+EVT-000342,CASE-00154,case_opened,2025-12-27 00:00:00,Case opened following signal threshold breach.
+EVT-000343,CASE-00154,evidence_collected,2026-01-03 03:31:15,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000344,CASE-00154,resolved,2026-01-10 00:00:00,Investigation concluded; action taken on account.
+EVT-000345,CASE-00155,case_opened,2026-04-22 00:00:00,Case opened following signal threshold breach.
+EVT-000346,CASE-00155,evidence_collected,2026-04-26 11:46:20,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000347,CASE-00155,resolved,2026-04-30 00:00:00,Investigation concluded; action taken on account.
+EVT-000348,CASE-00156,case_opened,2026-03-30 00:00:00,Case opened following signal threshold breach.
+EVT-000349,CASE-00156,evidence_collected,2026-04-25 11:30:14,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000350,CASE-00156,escalated,2026-05-18 08:05:02,Case escalated to senior review.
+EVT-000351,CASE-00157,case_opened,2025-12-23 00:00:00,Case opened following signal threshold breach.
+EVT-000352,CASE-00157,evidence_collected,2026-05-23 16:32:57,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000353,CASE-00158,case_opened,2026-02-09 00:00:00,Case opened following signal threshold breach.
+EVT-000354,CASE-00159,case_opened,2026-04-02 00:00:00,Case opened following signal threshold breach.
+EVT-000355,CASE-00159,evidence_collected,2026-05-04 09:33:11,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000356,CASE-00159,escalated,2026-05-21 00:13:49,Case escalated to senior review.
+EVT-000357,CASE-00160,case_opened,2026-03-12 00:00:00,Case opened following signal threshold breach.
+EVT-000358,CASE-00161,case_opened,2026-04-24 00:00:00,Case opened following signal threshold breach.
+EVT-000359,CASE-00161,evidence_collected,2026-05-22 18:24:42,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000360,CASE-00162,case_opened,2025-12-06 00:00:00,Case opened following signal threshold breach.
+EVT-000361,CASE-00162,evidence_collected,2026-03-21 22:00:37,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000362,CASE-00163,case_opened,2026-05-16 00:00:00,Case opened following signal threshold breach.
+EVT-000363,CASE-00163,evidence_collected,2026-05-18 23:39:59,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000364,CASE-00163,resolved,2026-05-23 00:00:00,Investigation concluded; action taken on account.
+EVT-000365,CASE-00164,case_opened,2026-01-14 00:00:00,Case opened following signal threshold breach.
+EVT-000366,CASE-00164,evidence_collected,2026-01-17 04:44:46,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000367,CASE-00164,resolved,2026-01-21 00:00:00,Investigation concluded; action taken on account.
+EVT-000368,CASE-00165,case_opened,2026-04-10 00:00:00,Case opened following signal threshold breach.
+EVT-000369,CASE-00165,evidence_collected,2026-04-13 15:57:22,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000370,CASE-00165,resolved,2026-04-17 00:00:00,Investigation concluded; action taken on account.
+EVT-000371,CASE-00166,case_opened,2026-01-05 00:00:00,Case opened following signal threshold breach.
+EVT-000372,CASE-00166,evidence_collected,2026-01-08 10:10:54,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000373,CASE-00166,resolved,2026-01-13 00:00:00,Investigation concluded; action taken on account.
+EVT-000374,CASE-00167,case_opened,2026-03-03 00:00:00,Case opened following signal threshold breach.
+EVT-000375,CASE-00167,evidence_collected,2026-04-10 06:50:42,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000376,CASE-00167,escalated,2026-05-06 16:53:31,Case escalated to senior review.
+EVT-000377,CASE-00168,case_opened,2026-02-14 00:00:00,Case opened following signal threshold breach.
+EVT-000378,CASE-00168,evidence_collected,2026-05-10 20:40:08,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000379,CASE-00169,case_opened,2026-04-06 00:00:00,Case opened following signal threshold breach.
+EVT-000380,CASE-00169,evidence_collected,2026-04-29 22:51:09,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000381,CASE-00169,escalated,2026-05-28 17:18:09,Case escalated to senior review.
+EVT-000382,CASE-00170,case_opened,2026-01-28 00:00:00,Case opened following signal threshold breach.
+EVT-000383,CASE-00171,case_opened,2026-03-07 00:00:00,Case opened following signal threshold breach.
+EVT-000384,CASE-00171,evidence_collected,2026-03-14 03:37:11,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000385,CASE-00171,resolved,2026-03-19 00:00:00,Investigation concluded; action taken on account.
+EVT-000386,CASE-00172,case_opened,2026-02-02 00:00:00,Case opened following signal threshold breach.
+EVT-000387,CASE-00172,evidence_collected,2026-04-11 19:44:50,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000388,CASE-00173,case_opened,2026-02-21 00:00:00,Case opened following signal threshold breach.
+EVT-000389,CASE-00174,case_opened,2026-04-28 00:00:00,Case opened following signal threshold breach.
+EVT-000390,CASE-00174,evidence_collected,2026-04-29 06:58:10,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000391,CASE-00174,resolved,2026-05-01 00:00:00,Investigation concluded; action taken on account.
+EVT-000392,CASE-00175,case_opened,2026-02-24 00:00:00,Case opened following signal threshold breach.
+EVT-000393,CASE-00175,evidence_collected,2026-04-17 20:54:05,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000394,CASE-00175,escalated,2026-05-08 10:35:53,Case escalated to senior review.
+EVT-000395,CASE-00176,case_opened,2026-03-10 00:00:00,Case opened following signal threshold breach.
+EVT-000396,CASE-00176,evidence_collected,2026-04-12 08:41:02,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000397,CASE-00176,escalated,2026-05-27 19:20:42,Case escalated to senior review.
+EVT-000398,CASE-00177,case_opened,2026-02-14 00:00:00,Case opened following signal threshold breach.
+EVT-000399,CASE-00177,evidence_collected,2026-04-10 12:39:01,"Evidence gathered from account comments, reports, and campaign linkage."
+EVT-000400,CASE-00177,escalated,2026-05-13 09:17:06,Case escalated to senior review.
+EVT-000401,CASE-00178,case_opened,2026-05-28 00:00:00,Case opened following signal threshold breach.
+EVT-000402,CASE-00179,case_opened,2025-12-17 00:00:00,Case opened following signal threshold breach.
+EVT-000403,CASE-00180,case_opened,2026-05-25 00:00:00,Case opened following signal threshold breach.
+EVT-000404,CASE-00180,evidence_collected,2026-05-31 01:07:35,"Evidence gathered from account comments, reports, and campaign linkage."

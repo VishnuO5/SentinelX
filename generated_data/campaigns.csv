@@ -1,0 +1,17 @@
+campaign_id,campaign_type,first_detected_at,velocity_score,similarity_score,network_density,status
+CAMP-001,spam,2026-05-27 00:00:00,0.478,0.747,0.585,resolved
+CAMP-002,spam,2026-05-20 00:00:00,0.467,0.7966,0.574,resolved
+CAMP-003,spam,2026-05-20 00:00:00,0.4,0.7917,0.654,active
+CAMP-004,spam,2026-05-27 00:00:00,0.4,0.78,0.592,active
+CAMP-005,spam,2026-05-11 00:00:00,0.511,0.8388,0.688,active
+CAMP-006,bot_network,2026-05-22 00:00:00,0.9,0.9093,0.637,contained
+CAMP-007,bot_network,2026-05-27 00:00:00,0.9,0.9219,0.595,resolved
+CAMP-008,bot_network,2026-05-28 00:00:00,0.967,0.9062,0.284,contained
+CAMP-009,harassment,2026-01-24 00:00:00,0.2,0.27,0.54,active
+CAMP-010,harassment,2026-02-27 00:00:00,0.2,0.3237,0.673,active
+CAMP-011,harassment,2026-04-26 00:00:00,0.2,0.2854,0.596,contained
+CAMP-012,scam,2026-05-24 00:00:00,0.778,0.4433,0.646,contained
+CAMP-013,scam,2026-05-21 00:00:00,0.822,0.3945,0.762,active
+CAMP-014,fake_engagement,2026-05-22 00:00:00,0.678,0.6116,0.579,resolved
+CAMP-015,fake_engagement,2026-05-27 00:00:00,0.689,0.5839,0.629,resolved
+CAMP-016,repeat_offender,2025-02-20 00:00:00,0.2,0.3378,0.621,resolved

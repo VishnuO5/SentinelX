@@ -1,0 +1,17 @@
+cluster_id,campaign_id,campaign_type
+CLU-001,CAMP-001,spam
+CLU-002,CAMP-002,spam
+CLU-003,CAMP-003,spam
+CLU-004,CAMP-004,spam
+CLU-005,CAMP-005,spam
+CLU-006,CAMP-006,bot_network
+CLU-007,CAMP-007,bot_network
+CLU-008,CAMP-008,bot_network
+CLU-009,CAMP-009,harassment
+CLU-010,CAMP-010,harassment
+CLU-011,CAMP-011,harassment
+CLU-012,CAMP-012,scam
+CLU-013,CAMP-013,scam
+CLU-014,CAMP-014,fake_engagement
+CLU-015,CAMP-015,fake_engagement
+CLU-016,CAMP-016,repeat_offender

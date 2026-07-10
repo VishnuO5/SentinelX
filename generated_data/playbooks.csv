@@ -1,0 +1,31 @@
+playbook_id,case_type,step_order,step_description,checklist_item
+PB-0001,spam,1,Check for duplicate or near-duplicate accounts sharing this device_id.,1
+PB-0002,spam,2,Review posting velocity -- how many comments in the last 24-72 hours?,1
+PB-0003,spam,3,Check report volume and reason distribution for this account.,1
+PB-0004,spam,4,Check whether the account is linked to a known campaign cluster.,0
+PB-0005,spam,5,Escalate if network_density on the linked campaign exceeds 0.6.,0
+PB-0006,bot_network,1,Check account creation date -- bot accounts typically cluster within days.,1
+PB-0007,bot_network,2,Check device_id and ip_region overlap with other accounts in the cluster.,1
+PB-0008,bot_network,3,Review posting cadence for non-human timing patterns.,1
+PB-0009,bot_network,4,Cross-reference campaign velocity_score against historical bot campaigns.,0
+PB-0010,bot_network,5,Escalate for platform-wide device block if network_density > 0.7.,0
+PB-0011,harassment,1,"Read the reported content in full context, not just the flagged excerpt.",1
+PB-0012,harassment,2,Check the target account's report history for a pattern.,1
+PB-0013,harassment,3,Check whether this account has prior harassment cases (repeat behavior).,1
+PB-0014,harassment,4,Determine if multiple reporters are flagging the same target (coordination signal).,0
+PB-0015,harassment,5,Escalate immediately if the content contains threat-level language.,0
+PB-0016,scam,1,Extract and review any linked URLs from the account's comments.,1
+PB-0017,scam,2,Check account age vs. posting behavior -- scam accounts are usually new.,1
+PB-0018,scam,3,Check report_reason distribution for 'scam' or 'impersonation' concentration.,1
+PB-0019,scam,4,Check for shared device/IP with other scam-flagged accounts.,0
+PB-0020,scam,5,Escalate for platform-wide link block if the same domain repeats across accounts.,0
+PB-0021,fake_engagement,1,Compare this account's engagement velocity to the campaign's average.,1
+PB-0022,fake_engagement,2,Check device_reuse_signal -- fake engagement clusters usually share devices.,1
+PB-0023,fake_engagement,3,Spot-check a sample of comments for authenticity vs. templated text.,1
+PB-0024,fake_engagement,4,Check campaign similarity_score -- high text similarity supports coordination.,0
+PB-0025,fake_engagement,5,Escalate if velocity_score is sustained (not a single burst).,0
+PB-0026,repeat_offender,1,Pull the account's full prior case history.,1
+PB-0027,repeat_offender,2,Check whether prior violations follow a consistent pattern or escalate in severity.,1
+PB-0028,repeat_offender,3,Review whether the previous resolution actually held (no relapse).,1
+PB-0029,repeat_offender,4,Check current composite_risk_score against the score at last resolution.,0
+PB-0030,repeat_offender,5,Escalate to permanent-action review if this is the 3rd or later offense.,0

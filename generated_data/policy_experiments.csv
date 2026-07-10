@@ -1,0 +1,7 @@
+experiment_id,experiment_name,parameter_changed,baseline_value,tested_value,baseline_precision,baseline_recall,tested_precision,tested_recall,false_positive_delta,run_at
+EXP-001,High-risk threshold: 0.4 -> 0.25,high_risk_threshold,0.4,0.25,1.0,0.628,0.977,0.971,0.009,2026-06-01 00:00:00
+EXP-002,High-risk threshold: 0.4 -> 0.3,high_risk_threshold,0.4,0.3,1.0,0.628,0.988,0.924,0.005,2026-06-01 00:00:00
+EXP-003,High-risk threshold: 0.4 -> 0.35,high_risk_threshold,0.4,0.35,1.0,0.628,0.993,0.82,0.002,2026-06-01 00:00:00
+EXP-004,High-risk threshold: 0.4 -> 0.45,high_risk_threshold,0.4,0.45,1.0,0.628,1.0,0.384,0.0,2026-06-01 00:00:00
+EXP-005,High-risk threshold: 0.4 -> 0.5,high_risk_threshold,0.4,0.5,1.0,0.628,1.0,0.203,0.0,2026-06-01 00:00:00
+EXP-006,High-risk threshold: 0.4 -> 0.55,high_risk_threshold,0.4,0.55,1.0,0.628,1.0,0.087,0.0,2026-06-01 00:00:00
