@@ -1,0 +1,125 @@
+/* ==========================================================
+   SentinelX Enterprise Design System
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+html,
+body,
+[class*="css"] {
+
+    font-family: "Inter", sans-serif;
+
+}
+
+/* Hide Streamlit Branding */
+
+#MainMenu {
+
+    visibility: hidden;
+
+}
+
+footer {
+
+    visibility: hidden;
+
+}
+
+header {
+
+    visibility: hidden;
+
+}
+
+/* Main */
+
+.block-container{
+
+    padding-top:1.5rem;
+
+    padding-bottom:1rem;
+
+    max-width:1600px;
+
+}
+
+/* Cards */
+
+.metric-card{
+
+    background:#111827;
+
+    border:1px solid #1f2937;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    color:white;
+
+    transition:.25s;
+
+}
+
+.metric-card:hover{
+
+    border:1px solid #3b82f6;
+
+    transform:translateY(-3px);
+
+}
+
+/* Titles */
+
+.big-title{
+
+    font-size:42px;
+
+    font-weight:800;
+
+    color:white;
+
+}
+
+.subtitle{
+
+    color:#94a3b8;
+
+    font-size:18px;
+
+}
+
+/* Risk */
+
+.low{
+
+    color:#22c55e;
+
+    font-weight:700;
+
+}
+
+.medium{
+
+    color:#f59e0b;
+
+    font-weight:700;
+
+}
+
+.high{
+
+    color:#ef4444;
+
+    font-weight:700;
+
+}
+
+/* Tables */
+
+[data-testid="stDataFrame"]{
+
+    border-radius:12px;
+
+}
