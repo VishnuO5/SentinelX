@@ -106,7 +106,6 @@ def _top_signal_name(signals: dict) -> str:
 
 
 def _rule_based_trace(bundle: dict) -> dict:
-    case = bundle["case"]
     account = bundle["account"]
     signals = bundle.get("signals") or {}
     campaign = bundle.get("campaign")

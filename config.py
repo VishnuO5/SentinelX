@@ -52,11 +52,11 @@ NUM_COMMENTS = 3000
 
 # NOTE: campaigns are NOT generated directly from this number. They emerge
 # from the clustering logic in generate_behaviour.py (one campaign per
-# cluster that forms). This is a target/expected order of magnitude, not
-# an enforced count -- the real number currently produced is 16. If you
-# need the count to match exactly, tune the clustering parameters in
-# generate_behaviour.py, not this constant.
-NUM_CAMPAIGNS = 15
+# cluster that forms). This constant reflects the actual count currently
+# produced by generate_behaviour.py's clustering -- if you tune the
+# clustering parameters and the real count changes, update this to match
+# rather than letting it drift.
+NUM_CAMPAIGNS = 16
 
 NUM_MODERATORS = 8
 
