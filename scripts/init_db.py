@@ -18,7 +18,7 @@ import os
 import logging
 
 # ---------------------------------------------------------------------------
-# Config (named constants, no magic strings -- mirrors PraxisIQ pattern)
+# Config (named constants, no magic strings)
 # ---------------------------------------------------------------------------
 
 DB_DIR = "database"

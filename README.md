@@ -4,8 +4,6 @@
 
 SentinelX is an investigation workbench for Trust & Safety analysts. Where a typical analytics dashboard answers *"what happened,"* SentinelX answers *"why did it happen, who's responsible, what's the evidence, and what should we do next."*
 
-It's the companion project to [PraxisIQ](https://github.com/VishnuO5/PraxisIQ) (a T&S analytics platform built on real dental-clinic data). PraxisIQ detects and measures. SentinelX investigates and decides.
-
 ---
 
 ## What it does
