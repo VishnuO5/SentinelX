@@ -24,7 +24,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.repositories.signal_repository import SignalRepository
 from src.engines.signal_engine import SignalEngine
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Unified Signal Engine")
 st.caption(
     "Five independent signals, fused into one composite risk score. "
@@ -55,7 +59,7 @@ with left:
         x=list(weights.values()),
         y=list(weights.keys()),
         orientation="h",
-        marker_color="#4C6FFF",
+        marker_color=theme.CHART_PRIMARY,
         text=[f"{v:.0%}" for v in weights.values()],
         textposition="outside",
     ))
@@ -72,7 +76,7 @@ with left:
         stats.get("avg_device", 0), stats.get("avg_ip", 0),
         stats.get("avg_toxicity", 0),
     ]
-    fig2 = go.Figure(go.Bar(x=avg_labels, y=avg_values, marker_color="#8C9EFF"))
+    fig2 = go.Figure(go.Bar(x=avg_labels, y=avg_values, marker_color=theme.CHART_TERTIARY))
     fig2.update_layout(yaxis_range=[0, 1], margin=dict(l=10, r=10, t=10, b=10), height=280)
     st.plotly_chart(fig2, use_container_width=True)
 
@@ -85,7 +89,7 @@ with right:
     fig3 = go.Figure(go.Bar(
         x=[f"{d['bucket']:.1f}" for d in dist],
         y=[d["count"] for d in dist],
-        marker_color="#FF6F61",
+        marker_color=theme.CHART_SECONDARY,
     ))
     fig3.update_layout(
         xaxis_title="Composite Risk Score", yaxis_title="Accounts",
@@ -138,7 +142,7 @@ if account_id:
         fig4 = go.Figure(go.Scatterpolar(
             r=radar_values + [radar_values[0]],
             theta=radar_labels + [radar_labels[0]],
-            fill="toself", line_color="#4C6FFF",
+            fill="toself", line_color=theme.CHART_PRIMARY,
         ))
         fig4.update_layout(
             polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
@@ -205,3 +209,5 @@ if submitted:
     r3.metric("Device", f"{result['device_reuse_signal']:.3f}")
     r4.metric("IP", f"{result['ip_region_signal']:.3f}")
     r5.metric("Toxicity", f"{result['toxicity_signal']:.3f}")
+
+sidebar_status()

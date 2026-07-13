@@ -20,7 +20,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.engines.evidence_engine import graph_to_plot_data
 from src.repositories.evidence_repository import EvidenceRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Evidence Graph Explorer")
 st.caption("Case -> Account -> Comments / Reports / Campaign, as an actual connection graph.")
 
@@ -52,7 +56,7 @@ fig = go.Figure()
 
 fig.add_trace(go.Scatter(
     x=plot_data["edge_x"], y=plot_data["edge_y"],
-    mode="lines", line=dict(width=1.5, color="#CCCCCC"),
+    mode="lines", line=dict(width=1.5, color=theme.CHART_LINE),
     hoverinfo="none", showlegend=False,
 ))
 
@@ -86,3 +90,5 @@ st.write(f"**Account:** {graph_data['account'].get('account_id')} "
 for node in graph_data["nodes"]:
     if node["type"] not in ("case", "account"):
         st.write(f"- **{node['type']}**: {node['label']}")
+
+sidebar_status()

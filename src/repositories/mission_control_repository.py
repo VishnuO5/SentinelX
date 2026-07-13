@@ -84,3 +84,52 @@ class MissionControlRepository:
         ).fetchall()
 
         return [dict(r) for r in rows]
+
+    def get_case_volume_trend(self) -> list:
+        """Cases opened per week, real dates from the cases table --
+        powers the Mission Control trend chart."""
+        conn = db.connect()
+
+        rows = conn.execute(
+            """
+            SELECT strftime('%Y-%W', opened_at) AS week, COUNT(*) AS count
+            FROM cases
+            GROUP BY week
+            ORDER BY week ASC
+            """
+        ).fetchall()
+
+        return [dict(r) for r in rows]
+
+    def get_priority_breakdown(self) -> list:
+        """Real case count per priority band."""
+        conn = db.connect()
+
+        rows = conn.execute(
+            """
+            SELECT priority, COUNT(*) AS count
+            FROM cases
+            GROUP BY priority
+            """
+        ).fetchall()
+
+        return [dict(r) for r in rows]
+
+    def get_recent_activity(self, limit: int = 6) -> list:
+        """Recent real events from case_timeline, joined with case context
+        -- powers the Mission Control activity feed."""
+        conn = db.connect()
+
+        rows = conn.execute(
+            """
+            SELECT case_timeline.event_type, case_timeline.event_timestamp,
+                   case_timeline.event_description, cases.case_id, cases.case_type
+            FROM case_timeline
+            JOIN cases ON case_timeline.case_id = cases.case_id
+            ORDER BY case_timeline.event_timestamp DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+
+        return [dict(r) for r in rows]

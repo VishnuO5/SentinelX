@@ -1,6 +1,15 @@
+"""
+pages/01_Mission_Control.py
+==============================
+Premium dashboard: full-width gradient KPI banner, case volume trend,
+priority donut, a real activity feed (from case_timeline), and a styled
+recent-cases table. Every number is real, nothing hardcoded.
+"""
+
 import sys
 from pathlib import Path
 
+import plotly.graph_objects as go
 import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -8,41 +17,206 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.repositories.mission_control_repository import MissionControlRepository
+import src.ui.theme as theme
+from src.ui.theme import (
+    apply_theme, sidebar_user, sidebar_status, kpi_banner, banner_stat,
+    pill, badge, card_header,
+)
 
-st.set_page_config(layout="wide")
 
-st.title("Mission Control")
+apply_theme()
+sidebar_user()
 
 repo = MissionControlRepository()
 kpis = repo.get_kpis()
 
-col1, col2, col3, col4 = st.columns(4)
+st.markdown(
+    """
+    <div style="margin: 0.4rem 0 1.2rem 0;">
+        <div class="sx-glow-text" style="font-size:1.9rem;">
+            Mission Control
+        </div>
+        <div style="color:var(--sx-muted); font-size:0.92rem; margin-top:2px;">
+            Active investigations, risk posture, and team activity — live from the database.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-col1.metric("Open Investigations", kpis["open_cases"])
-col2.metric("High Risk Accounts", kpis["high_risk_accounts"])
-col3.metric("Active Campaigns", kpis["active_campaigns"])
-col4.metric("Average Risk", kpis["avg_risk"])
+# ---------------------------------------------------------------------
+# Gradient KPI banner
+# ---------------------------------------------------------------------
 
-st.divider()
+kpi_banner([
+    banner_stat("📂", "Open Investigations", kpis["open_cases"],
+                pill("across all priorities", "flat")),
+    banner_stat("⚠️", "High-Risk Accounts", kpis["high_risk_accounts"],
+                pill("risk ≥ 0.4", "down")),
+    banner_stat("🧬", "Active Campaigns", kpis["active_campaigns"],
+                pill("currently tracked", "flat")),
+    banner_stat("📊", "Average Risk", kpis["avg_risk"],
+                pill("population-wide", "up")),
+])
+
+# ---------------------------------------------------------------------
+# Trend + priority donut
+# ---------------------------------------------------------------------
 
 left, right = st.columns([2, 1])
 
 with left:
-    st.subheader("Recent Investigations")
+    st.markdown(
+        f'<div class="sx-card">{card_header("📈", "Case Volume")}',
+        unsafe_allow_html=True,
+    )
 
-    recent_cases = repo.get_recent_cases(limit=10)
+    trend = repo.get_case_volume_trend()
+    if trend:
+        weeks = [t["week"] for t in trend]
+        counts = [t["count"] for t in trend]
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=weeks, y=counts, mode="lines",
+            line=dict(color=theme.CHART_PRIMARY, width=2.5, shape="spline"),
+            fill="tozeroy", fillcolor="rgba(124, 58, 237, 0.10)",
+            hovertemplate="Week %{x}<br>%{y} cases<extra></extra>",
+        ))
+        fig.update_layout(
+            height=250, margin=dict(l=10, r=10, t=6, b=10),
+            plot_bgcolor="white", paper_bgcolor="white",
+            font=dict(family="Inter, sans-serif", size=11, color="#5B6478"),
+            xaxis=dict(showgrid=False, showline=True, linecolor="#ECEDF4"),
+            yaxis=dict(showgrid=True, gridcolor="#F1F2F6", zeroline=False),
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    else:
+        st.info("No case data yet.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with right:
+    st.markdown(
+        f'<div class="sx-card">{card_header("🥧", "By Priority")}',
+        unsafe_allow_html=True,
+    )
+
+    breakdown = repo.get_priority_breakdown()
+    if breakdown:
+        order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+        breakdown = sorted(breakdown, key=lambda b: order.get(b["priority"], 9))
+        colors = {"critical": "#DC2626", "high": "#EA580C", "medium": "#D97706", "low": "#9096A8"}
+
+        fig = go.Figure(data=[go.Pie(
+            labels=[b["priority"].capitalize() for b in breakdown],
+            values=[b["count"] for b in breakdown],
+            hole=0.62,
+            marker=dict(colors=[colors.get(b["priority"], "#9096A8") for b in breakdown]),
+            textinfo="value",
+            textfont=dict(family="JetBrains Mono, monospace", size=12),
+            hovertemplate="%{label}: %{value} cases<extra></extra>",
+        )])
+        fig.update_layout(
+            height=250, margin=dict(l=10, r=10, t=6, b=10),
+            paper_bgcolor="white", showlegend=True,
+            legend=dict(orientation="h", y=-0.12, font=dict(size=10, family="Inter, sans-serif")),
+            font=dict(family="Inter, sans-serif", color="#5B6478"),
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    else:
+        st.info("No case data yet.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# ---------------------------------------------------------------------
+# Recent Investigations (styled table) + Activity Feed
+# ---------------------------------------------------------------------
+
+left, right = st.columns([2, 1])
+
+PRIORITY_KIND = {"critical": "critical", "high": "high", "medium": "medium", "low": "low"}
+STATUS_KIND = {"open": "medium", "in_progress": "brand", "escalated": "critical",
+               "resolved": "good", "closed": "low"}
+EVENT_META = {
+    "case_opened":        ("#C9A227", "Case opened"),
+    "escalated":          ("#DC2626", "Escalated"),
+    "evidence_collected": ("#6C63FF", "Evidence collected"),
+    "resolved":           ("#12946F", "Resolved"),
+}
+
+with left:
+    st.markdown(
+        f'<div class="sx-card">{card_header("🗂️", "Recent Investigations")}',
+        unsafe_allow_html=True,
+    )
+
+    recent_cases = repo.get_recent_cases(limit=8)
 
     if recent_cases:
-        st.dataframe(recent_cases, use_container_width=True)
+        rows_html = ""
+        for c in recent_cases:
+            pri_badge = badge(c["priority"], PRIORITY_KIND.get(c["priority"], "low"))
+            status_badge = badge(c["status"].replace("_", " "), STATUS_KIND.get(c["status"], "low"))
+            mod = c["assigned_moderator_id"] or "—"
+            rows_html += f"""
+            <tr>
+                <td class="sx-mono">{c['case_id']}</td>
+                <td>{c['case_type']}</td>
+                <td>{pri_badge}</td>
+                <td>{status_badge}</td>
+                <td class="sx-mono">{str(c['opened_at'])[:10]}</td>
+                <td class="sx-mono">{mod}</td>
+            </tr>
+            """
+        st.markdown(
+            f"""
+            <table class="sx-table">
+                <thead><tr>
+                    <th>Case ID</th><th>Type</th><th>Priority</th>
+                    <th>Status</th><th>Opened</th><th>Moderator</th>
+                </tr></thead>
+                <tbody>{rows_html}</tbody>
+            </table>
+            """,
+            unsafe_allow_html=True,
+        )
     else:
         st.info("No cases found in the database.")
 
+    st.markdown("</div>", unsafe_allow_html=True)
+
 with right:
-    st.subheader("Moderator Workload")
+    st.markdown(
+        f'<div class="sx-card">{card_header("⚡", "Activity")}',
+        unsafe_allow_html=True,
+    )
 
-    moderators = repo.get_moderator_workload()
+    activity = repo.get_recent_activity(limit=6)
 
-    if moderators:
-        st.dataframe(moderators, use_container_width=True)
+    if activity:
+        items_html = ""
+        for a in activity:
+            color, label = EVENT_META.get(a["event_type"], ("#9096A8", a["event_type"]))
+            time_str = str(a["event_timestamp"])[5:16].replace("-", "/")
+            items_html += f"""
+            <div class="sx-activity-item">
+                <div class="sx-activity-dot" style="background:{color};"></div>
+                <div style="flex:1;">
+                    <div class="sx-activity-row">
+                        <div>
+                            <div class="sx-activity-title">{label} — {a['case_id']}</div>
+                            <div class="sx-activity-desc">{a['event_description']}</div>
+                        </div>
+                        <div class="sx-activity-time">{time_str}</div>
+                    </div>
+                </div>
+            </div>
+            """
+        st.markdown(items_html, unsafe_allow_html=True)
     else:
-        st.info("No moderators found.")
+        st.info("No activity yet.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+sidebar_status()

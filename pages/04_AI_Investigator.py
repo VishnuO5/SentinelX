@@ -24,7 +24,10 @@ from src.ai.investigator import AIInvestigator
 from src.ai.reasoning_engine import ReasoningEngine
 from src.repositories.case_repository import CaseRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+apply_theme()
+sidebar_user()
 st.title("AI Investigator")
 st.caption("Summary, Evidence, and Recommendation for a case -- generated from real data, not a template guess.")
 
@@ -133,3 +136,5 @@ if selected_case_id:
                 for step in trace.get("steps", []):
                     st.markdown(f"**{step['step']}**")
                     st.write(step["content"])
+
+sidebar_status()

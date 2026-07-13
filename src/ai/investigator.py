@@ -30,6 +30,33 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
+def _resolve_groq_api_key(explicit_key: str | None) -> str | None:
+    """Checks, in order: an explicitly passed key, Streamlit Cloud's
+    st.secrets, then a plain OS environment variable.
+
+    FIX: this used to only check os.environ.get("GROQ_API_KEY"). That
+    works for local development (a shell env var or .env loader), but on
+    Streamlit Cloud, secrets added through the app's Settings -> Secrets
+    panel are exposed via st.secrets, NOT mirrored into os.environ. So a
+    correctly-configured key on Streamlit Cloud was silently invisible to
+    this code, and the app would show fallback mode even with a real key
+    set -- looking like a bug rather than a missing code path.
+    """
+    if explicit_key:
+        return explicit_key
+
+    try:
+        import streamlit as st
+        if "GROQ_API_KEY" in st.secrets:
+            return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        # No secrets.toml locally, not running under Streamlit, or
+        # secrets access otherwise unavailable -- fall through to env var.
+        pass
+
+    return os.environ.get("GROQ_API_KEY")
+
+
 PROMPT_TEMPLATE = """You are a Trust & Safety investigator writing up a case conclusion for a fellow analyst. Be concise, evidence-driven, and specific -- cite the actual numbers given below. Do not invent facts not present in the evidence.
 
 CASE
@@ -239,7 +266,7 @@ def _top_signal_name(signals: dict) -> str:
 class AIInvestigator:
 
     def __init__(self, api_key: str | None = None, model: str = "llama-3.3-70b-versatile"):
-        self.api_key = api_key or os.environ.get("GROQ_API_KEY")
+        self.api_key = _resolve_groq_api_key(api_key)
         self.model = model
 
     def investigate(self, bundle: dict) -> dict:

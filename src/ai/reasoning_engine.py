@@ -24,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 import config
+from src.ai.investigator import _resolve_groq_api_key
 
 STEP_NAMES = ["Evidence Gathering", "Pattern Analysis", "Risk Correlation", "Verdict"]
 
@@ -167,7 +168,7 @@ def _rule_based_trace(bundle: dict) -> dict:
 class ReasoningEngine:
 
     def __init__(self, api_key: str | None = None, model: str = "llama-3.3-70b-versatile"):
-        self.api_key = api_key or os.environ.get("GROQ_API_KEY")
+        self.api_key = _resolve_groq_api_key(api_key)
         self.model = model
 
     def reason(self, bundle: dict) -> dict:

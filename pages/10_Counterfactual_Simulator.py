@@ -20,7 +20,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.repositories.counterfactual_repository import CounterfactualRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Counterfactual Simulator")
 st.caption("What would have happened to real cases under a different policy -- computed, not guessed.")
 
@@ -34,11 +38,11 @@ if not runs:
 fig = go.Figure()
 fig.add_trace(go.Bar(
     x=[r["run_id"] for r in runs], y=[r["cases_would_have_flagged"] for r in runs],
-    name="Would have flagged (new)", marker_color="#FF6F61",
+    name="Would have flagged (new)", marker_color=theme.CHART_SECONDARY,
 ))
 fig.add_trace(go.Bar(
     x=[r["run_id"] for r in runs], y=[r["cases_would_have_missed"] for r in runs],
-    name="Would have missed (dropped)", marker_color="#4C6FFF",
+    name="Would have missed (dropped)", marker_color=theme.CHART_PRIMARY,
 ))
 fig.update_layout(
     barmode="group", height=400,
@@ -65,3 +69,5 @@ for r in runs:
                 "volume, and account age already correlate strongly with real "
                 "campaign membership in this dataset)."
             )
+
+sidebar_status()

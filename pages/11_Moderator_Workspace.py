@@ -18,7 +18,10 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.repositories.moderator_repository import ModeratorRepository, VALID_STATUSES
 from src.services.moderation_service import ModerationService, ALLOWED_TRANSITIONS
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+apply_theme()
+sidebar_user()
 st.title("Moderator Workspace")
 st.caption("Assign, escalate, resolve, and close investigations. Every action is logged.")
 
@@ -160,3 +163,5 @@ if audit:
     )
 else:
     st.caption("No audit events yet for this case.")
+
+sidebar_status()

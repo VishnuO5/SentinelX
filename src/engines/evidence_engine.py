@@ -12,11 +12,14 @@ from __future__ import annotations
 import networkx as nx
 
 NODE_COLORS = {
-    "case": "#4C6FFF",
-    "account": "#FF6F61",
-    "comment": "#8C9EFF",
-    "report": "#FFB020",
-    "campaign": "#2ECC71",
+    # Mirrors src/ui/theme.py's CHART_* constants -- kept as literal hex
+    # here rather than importing the theme module, so the engine layer
+    # doesn't take a dependency on the UI layer. Update both together.
+    "case": "#7C3AED",       # CHART_PRIMARY (violet)
+    "account": "#E11D48",    # CHART_SECONDARY (rose)
+    "comment": "#A78BFA",    # CHART_TERTIARY (light violet)
+    "report": "#F59E0B",     # CHART_ACCENT_AMBER
+    "campaign": "#14B8A6",   # CHART_ACCENT_TEAL
 }
 
 

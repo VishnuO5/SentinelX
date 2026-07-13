@@ -20,7 +20,11 @@ if str(PROJECT_ROOT) not in sys.path:
 import config
 from src.repositories.policy_experiment_repository import PolicyExperimentRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Policy Experiment Center")
 st.caption(
     "What happens to precision and recall if we move the high-risk threshold? "
@@ -83,15 +87,15 @@ sweep = repo.sweep_thresholds(step=0.05)
 fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=[s["threshold"] for s in sweep], y=[s["precision"] for s in sweep],
-    name="Precision", line=dict(color="#4C6FFF", width=2),
+    name="Precision", line=dict(color=theme.CHART_PRIMARY, width=2),
 ))
 fig.add_trace(go.Scatter(
     x=[s["threshold"] for s in sweep], y=[s["recall"] for s in sweep],
-    name="Recall", line=dict(color="#FF6F61", width=2),
+    name="Recall", line=dict(color=theme.CHART_SECONDARY, width=2),
 ))
 fig.add_trace(go.Scatter(
     x=[s["threshold"] for s in sweep], y=[s["f1"] for s in sweep],
-    name="F1", line=dict(color="#2ECC71", width=2, dash="dot"),
+    name="F1", line=dict(color=theme.CHART_ACCENT_TEAL, width=2, dash="dot"),
 ))
 fig.add_vline(x=threshold, line_dash="dash", line_color="gray",
               annotation_text="selected threshold")
@@ -100,3 +104,5 @@ fig.update_layout(
     height=400, margin=dict(l=20, r=20, t=20, b=20),
 )
 st.plotly_chart(fig, use_container_width=True)
+
+sidebar_status()

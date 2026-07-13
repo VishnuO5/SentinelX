@@ -26,7 +26,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.repositories.campaign_repository import CampaignRepository
 from src.engines.campaign_engine import CampaignEngine
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Abuse Genome")
 st.caption("Campaign DNA: velocity, similarity, network density, and report volume, side by side.")
 
@@ -120,7 +124,7 @@ if selected:
             r=[dna["velocity"], dna["similarity"], dna["network_density"],
                dna["report_volume_normalized"], dna["velocity"]],
             theta=dim_labels + [dim_labels[0]],
-            fill="toself", line_color="#FF6F61",
+            fill="toself", line_color=theme.CHART_SECONDARY,
         ))
         fig_dna.update_layout(
             polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
@@ -179,3 +183,5 @@ if st.button("Run independent campaign detection"):
         f"{metrics['false_positives']} false positives out of "
         f"{metrics['false_positives'] + metrics['true_negatives']} organic accounts."
     )
+
+sidebar_status()

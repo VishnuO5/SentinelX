@@ -22,7 +22,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.repositories.case_timeline_repository import CaseTimelineRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+import src.ui.theme as theme
+apply_theme()
+sidebar_user()
 st.title("Investigation Replay")
 st.caption("Step through how a case actually unfolded, from first flag to resolution.")
 
@@ -69,13 +73,13 @@ if timeline:
     fig = go.Figure()
     x_vals = [e["event_timestamp"] for e in timeline]
     y_vals = [0] * len(timeline)
-    colors = [EVENT_COLORS.get(e["event_type"], "#999999") for e in timeline]
+    colors = [EVENT_COLORS.get(e["event_type"], theme.CHART_NEUTRAL) for e in timeline]
     labels = [EVENT_LABELS.get(e["event_type"], e["event_type"]) for e in timeline]
 
     fig.add_trace(go.Scatter(
         x=x_vals, y=y_vals, mode="markers+lines+text",
         marker=dict(size=18, color=colors, line=dict(width=2, color="white")),
-        line=dict(color="#CCCCCC", width=2),
+        line=dict(color=theme.CHART_LINE, width=2),
         text=labels, textposition="top center",
         hovertext=[e["event_description"] for e in timeline],
         hoverinfo="text+x",
@@ -93,7 +97,7 @@ if timeline:
     # ── Step-by-step detail ─────────────────────────────────────────
     st.subheader("Event Log")
     for e in timeline:
-        color = EVENT_COLORS.get(e["event_type"], "#999999")
+        color = EVENT_COLORS.get(e["event_type"], theme.CHART_NEUTRAL)
         st.markdown(
             f"<div style='border-left: 4px solid {color}; padding-left: 12px; margin-bottom: 14px;'>"
             f"<b>{EVENT_LABELS.get(e['event_type'], e['event_type'])}</b> "
@@ -104,3 +108,5 @@ if timeline:
         )
 else:
     st.info("No timeline events recorded for this case.")
+
+sidebar_status()

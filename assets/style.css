@@ -1,125 +1,1047 @@
-/* ==========================================================
-   SentinelX Enterprise Design System
-   ========================================================== */
+/* ==========================================================================
+   SentinelX — Premium Design System
+   Palette: cool paper canvas + violet/rose brand (investigation theme)
+   Type: Space Grotesk (display) / Inter (body) / JetBrains Mono (data)
+   ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-html,
-body,
-[class*="css"] {
+:root {
+    --sx-canvas: #F6F8F9;
+    --sx-surface: #FFFFFF;
+    --sx-ink: #101828;
+    --sx-muted: #667085;
+    --sx-muted-2: #98A2B3;
+    --sx-border: #E4E7EC;
+    --sx-border-strong: #D0D5DD;
 
-    font-family: "Inter", sans-serif;
+    --sx-brand-deep: #3B0764;
+    --sx-brand-deep-2: #4C1D95;
+    --sx-brand: #7C3AED;
+    --sx-brand-strong: #6D28D9;
+    --sx-brand-glow: #C4B5FD;
+    --sx-brand-tint: #F5F3FF;
 
+    /* Rose secondary accent -- previously referenced as --sx-magenta,
+       --sx-gradient-soft, and --sx-glow-sm across this file with no
+       definition at all, which is why sidebar nav hover/active states
+       (and a few other "glow" effects) were silently doing nothing. */
+    --sx-magenta: #E11D48;
+    --sx-magenta-glow: #FB7185;
+    --sx-gradient-soft: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(225, 29, 72, 0.10));
+    --sx-gradient-soft-strong: linear-gradient(135deg, rgba(124, 58, 237, 0.26), rgba(225, 29, 72, 0.18));
+    --sx-glow-sm: 0 0 0 1px rgba(124, 58, 237, 0.25), 0 0 14px rgba(124, 58, 237, 0.30);
+    --sx-glow-md: 0 0 0 1px rgba(124, 58, 237, 0.35), 0 4px 22px rgba(124, 58, 237, 0.35), 0 0 20px rgba(225, 29, 72, 0.18);
+
+    --sx-critical: #DC2626;
+    --sx-critical-tint: #FEF2F2;
+    --sx-high: #EA580C;
+    --sx-high-tint: #FFF7ED;
+    --sx-medium: #D97706;
+    --sx-medium-tint: #FFFBEB;
+    --sx-good: #12946F;
+    --sx-good-tint: #ECFDF5;
+
+    --sx-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --sx-shadow-md: 0 1px 3px rgba(16, 24, 40, 0.10), 0 1px 2px rgba(16, 24, 40, 0.06);
+    --sx-shadow-lg: 0 4px 12px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.06);
+    --sx-radius: 12px;
+    --sx-radius-sm: 8px;
 }
 
-/* Hide Streamlit Branding */
+/* ---------- Base ---------- */
 
-#MainMenu {
-
-    visibility: hidden;
-
+html, body, [class*="css"] {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--sx-ink);
 }
 
-footer {
-
-    visibility: hidden;
-
+[data-testid="stAppViewContainer"] {
+    background: var(--sx-canvas);
 }
 
-header {
-
-    visibility: hidden;
-
+[data-testid="stHeader"] {
+    background: transparent;
 }
 
-/* Main */
+#MainMenu, footer { visibility: hidden; }
 
-.block-container{
-
-    padding-top:1.5rem;
-
-    padding-bottom:1rem;
-
-    max-width:1600px;
-
+h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--sx-ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
-/* Cards */
-
-.metric-card{
-
-    background:#111827;
-
-    border:1px solid #1f2937;
-
-    border-radius:14px;
-
-    padding:20px;
-
-    color:white;
-
-    transition:.25s;
-
+/* Reduced motion respected */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
 }
 
-.metric-card:hover{
+/* ---------- Sidebar ---------- */
 
-    border:1px solid #3b82f6;
-
-    transform:translateY(-3px);
-
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, var(--sx-brand-deep) 0%, var(--sx-brand-deep-2) 100%);
+    border-right: none;
 }
 
-/* Titles */
-
-.big-title{
-
-    font-size:42px;
-
-    font-weight:800;
-
-    color:white;
-
+/* ---------- Sidebar structural order (the actual fix) ----------
+   Streamlit's sidebar is NOT one script-ordered stream: stSidebarHeader
+   (st.logo), stSidebarNav (the page list from st.navigation()), and
+   stSidebarUserContent (everything emitted via st.sidebar.* in the
+   running script) are three separate fixed slots under stSidebarContent.
+   No matter when sidebar_brand() is called in Overview.py, its output
+   lands inside stSidebarUserContent, which Streamlit places AFTER
+   stSidebarNav by default -- that's why the brand block kept appearing
+   below the nav regardless of call order. Flexbox `order` is the actual
+   fix: these three are real CSS siblings, so this reorders them
+   visually without touching Streamlit's DOM structure. */
+[data-testid="stSidebarContent"] {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.subtitle{
-
-    color:#94a3b8;
-
-    font-size:18px;
-
+[data-testid="stSidebarHeader"] {
+    order: -2;
 }
 
-/* Risk */
-
-.low{
-
-    color:#22c55e;
-
-    font-weight:700;
-
+[data-testid="stSidebarUserContent"] {
+    order: -1;
 }
 
-.medium{
-
-    color:#f59e0b;
-
-    font-weight:700;
-
+[data-testid="stSidebarNav"] {
+    order: 0;
 }
 
-.high{
-
-    color:#ef4444;
-
-    font-weight:700;
-
+[data-testid="stSidebar"] * {
+    color: #F3E8FF !important;
 }
 
-/* Tables */
+/* Sidebar brand block + signature "live monitoring" pulse.
+   This is the app's single most-seen element (visible on every page,
+   every load) so it gets the boldest treatment in the whole design
+   system: an ambient breathing glow behind the block, a continuous
+   multi-stop rainbow sweep through every line of text, and a
+   noticeably brighter icon pulse -- not just a colored label. */
 
-[data-testid="stDataFrame"]{
+.sx-sidebar-brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1.2rem 1.2rem 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: 0.4rem;
+    overflow: hidden;
+}
 
-    border-radius:12px;
+/* Ambient glow breathing behind the whole block -- a soft radial wash
+   that expands/contracts, so the block reads as "alive" even where
+   there's no text to animate. */
+.sx-sidebar-brand::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle at 20% 40%, rgba(168, 85, 247, 0.35), transparent 65%);
+    animation: sx-brand-ambient-glow 4.5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
 
+@keyframes sx-brand-ambient-glow {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 1; transform: scale(1.15); }
+}
+
+.sx-sidebar-brand .sx-mark,
+.sx-sidebar-brand > div {
+    position: relative;
+    z-index: 1;
+}
+
+.sx-sidebar-brand .sx-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: rgba(196, 181, 253, 0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    animation: sx-mark-glow 3s ease-in-out infinite;
+}
+
+.sx-sidebar-brand .sx-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Icon glow -- box-shadow color cycles through the brand palette, wider
+   and brighter than a standard hover glow so it reads as the block's
+   focal point. */
+@keyframes sx-mark-glow {
+    0%   { box-shadow: 0 0 14px 3px rgba(124, 58, 237, 0.75); }
+    33%  { box-shadow: 0 0 16px 4px rgba(225, 29, 72, 0.75); }
+    66%  { box-shadow: 0 0 16px 4px rgba(168, 85, 247, 0.75); }
+    100% { box-shadow: 0 0 14px 3px rgba(124, 58, 237, 0.75); }
+}
+
+.sx-sidebar-brand .sx-wordmark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 1.22rem;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    display: inline-block;
+    background: linear-gradient(90deg,
+        #FFFFFF 0%, #C4B5FD 16%, #A855F7 32%, #E11D48 48%, #FB7185 64%, #A855F7 80%, #FFFFFF 100%);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.45));
+    animation: sx-title-shimmer 5s linear infinite;
+}
+
+.sx-sidebar-brand .sx-tagline {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    display: inline-block;
+    background: linear-gradient(90deg, #D8B4FE 0%, #FB7185 30%, #F59E0B 60%, #D8B4FE 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: sx-tagline-glow 4s ease-in-out infinite;
+}
+
+@keyframes sx-tagline-glow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.sx-sidebar-status {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0.75rem 1.2rem;
+    margin-top: 0.6rem;
+}
+
+.sx-pulse-dot {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--sx-brand-glow);
+    flex-shrink: 0;
+    animation: sx-dot-color-cycle 3s ease-in-out infinite;
+}
+
+.sx-pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sx-brand-glow);
+    animation: sx-pulse 2s ease-out infinite, sx-dot-color-cycle 3s ease-in-out infinite;
+}
+
+@keyframes sx-pulse {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    80%  { transform: scale(2); opacity: 0; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* Shared by the dot and its ring -- animates background-color/border-color
+   through the brand palette, giving the "Live Monitoring" indicator a
+   genuinely colorful pulse instead of a single flat tone. */
+@keyframes sx-dot-color-cycle {
+    0%   { background-color: #C4B5FD; border-color: #C4B5FD; }
+    33%  { background-color: #FB7185; border-color: #FB7185; }
+    66%  { background-color: #A855F7; border-color: #A855F7; }
+    100% { background-color: #C4B5FD; border-color: #C4B5FD; }
+}
+
+.sx-sidebar-status span {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    display: inline-block;
+    background: linear-gradient(90deg, #D8B4FE 0%, #FB7185 30%, #F59E0B 60%, #D8B4FE 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: sx-tagline-glow 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sx-sidebar-brand::before,
+    .sx-sidebar-brand .sx-mark,
+    .sx-sidebar-brand .sx-wordmark,
+    .sx-sidebar-brand .sx-tagline,
+    .sx-pulse-dot,
+    .sx-pulse-dot::after,
+    .sx-sidebar-status span {
+        animation: none !important;
+    }
+}
+
+/* ---------- Landing hero ---------- */
+
+.sx-hero {
+    padding: 2.4rem 0 1.6rem 0;
+}
+
+.sx-hero .sx-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sx-brand-strong);
+    background: var(--sx-brand-tint);
+    border: 1px solid rgba(124, 58, 237, 0.22);
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+}
+
+.sx-hero .sx-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2.6rem;
+    line-height: 1.08;
+    color: var(--sx-ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.7rem;
+}
+
+/* Animated title -- the single signature flourish on the whole app,
+   used once, on the landing page's most-read line. A 4-stop violet ->
+   magenta -> rose -> violet gradient, animated via background-position
+   (not color values, for smooth 60fps motion) COMBINED with a gentle
+   vertical float so the text visibly drifts, not just recolors.
+   Respects prefers-reduced-motion via the global media query further
+   down. */
+.sx-hero .sx-title em {
+    font-style: normal;
+    display: inline-block;
+    background: linear-gradient(90deg,
+        #6D28D9 0%, #A855F7 20%, #E11D48 40%, #FB7185 60%, #A855F7 80%, #6D28D9 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: sx-title-shimmer 7s ease-in-out infinite, sx-title-float 4.5s ease-in-out infinite;
+}
+
+@keyframes sx-title-shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes sx-title-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+}
+
+.sx-hero .sx-subtitle {
+    font-size: 1.05rem;
+    color: var(--sx-muted);
+    max-width: 620px;
+    line-height: 1.55;
+}
+
+/* ---------- Cards ---------- */
+
+.sx-card {
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    box-shadow: var(--sx-shadow-sm);
+    padding: 1.25rem 1.4rem;
+}
+
+.sx-card:hover {
+    box-shadow: var(--sx-shadow-md);
+}
+
+/* ---------- KPI cards ---------- */
+
+.sx-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 1.2rem 0 1.6rem 0;
+}
+
+.sx-kpi {
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-left: 3px solid var(--sx-accent, var(--sx-brand));
+    border-radius: var(--sx-radius);
+    box-shadow: var(--sx-shadow-sm);
+    padding: 1.1rem 1.3rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.sx-kpi:hover {
+    box-shadow: var(--sx-shadow-md);
+    transform: translateY(-1px);
+}
+
+.sx-kpi .sx-kpi-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sx-muted);
+    margin-bottom: 0.5rem;
+}
+
+.sx-kpi .sx-kpi-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--sx-ink);
+    line-height: 1;
+}
+
+.sx-kpi .sx-kpi-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--sx-muted-2);
+    margin-top: 0.45rem;
+}
+
+/* ---------- Section headers ---------- */
+
+.sx-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 1.6rem 0 0.8rem 0;
+}
+
+.sx-section-header .sx-section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--sx-ink);
+}
+
+.sx-section-header .sx-section-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--sx-muted-2);
+}
+
+/* ---------- Badges (priority / status) ---------- */
+
+.sx-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    text-transform: capitalize;
+    line-height: 1.4;
+}
+
+.sx-badge-critical { background: var(--sx-critical-tint); color: var(--sx-critical); }
+.sx-badge-high     { background: var(--sx-high-tint); color: var(--sx-high); }
+.sx-badge-medium   { background: var(--sx-medium-tint); color: var(--sx-medium); }
+.sx-badge-low      { background: #F1F3F5; color: var(--sx-muted); }
+.sx-badge-good     { background: var(--sx-good-tint); color: var(--sx-good); }
+
+/* ---------- Data table rows (custom HTML tables) ---------- */
+
+.sx-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+}
+
+.sx-table thead th {
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sx-muted);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--sx-border);
+}
+
+.sx-table tbody td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid #F1F3F5;
+    color: var(--sx-ink);
+}
+
+.sx-table tbody tr:hover td {
+    background: #FAFBFC;
+}
+
+.sx-table .sx-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--sx-muted);
+}
+
+/* ---------- Streamlit native widget polish ---------- */
+
+.stButton > button {
+    border-radius: var(--sx-radius-sm);
+    font-weight: 600;
+    border: 1px solid var(--sx-border-strong);
+}
+
+.stButton > button[kind="primary"] {
+    background: var(--sx-brand-strong);
+    border-color: var(--sx-brand-strong);
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: var(--sx-brand-deep);
+    border-color: var(--sx-brand-deep);
+}
+
+[data-testid="stMetric"] {
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    padding: 1rem 1.2rem;
+    box-shadow: var(--sx-shadow-sm);
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sx-muted);
+}
+
+[data-testid="stMetricValue"] {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--sx-ink);
+}
+
+div[data-testid="stDataFrame"] {
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    overflow: hidden;
+}
+
+hr {
+    border-color: var(--sx-border);
+}
+/* ==========================================================================
+   FIX: warm/yellow highlight on focus, hover, and text selection
+   ==========================================================================
+   .streamlit/config.toml now sets primaryColor to the brand teal, which
+   fixes most of this at the source. These are an explicit belt-and-
+   suspenders layer on top -- some Streamlit-internal (BaseWeb) component
+   states don't fully inherit primaryColor across every version, and
+   ::selection is a browser default that Streamlit's theme never controls
+   at all. Every color below is a design-system token, not a new magic
+   value. */
+
+::selection {
+    background: var(--sx-brand-glow);
+    color: var(--sx-brand-deep);
+}
+
+:focus-visible {
+    outline: 2px solid var(--sx-brand) !important;
+    outline-offset: 2px;
+}
+
+/* Text inputs, text areas, number inputs -- focus border + soft glow */
+[data-baseweb="input"]:focus-within,
+[data-baseweb="textarea"]:focus-within,
+[data-baseweb="base-input"]:focus-within {
+    border-color: var(--sx-brand) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20) !important;
+}
+
+/* Selectbox / multiselect -- focus + open state */
+[data-baseweb="select"] > div:focus-within,
+[data-baseweb="select"][aria-expanded="true"] > div {
+    border-color: var(--sx-brand) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20) !important;
+}
+
+/* Dropdown option highlight (hovered/selected item in a select menu) */
+[data-baseweb="menu"] li:hover,
+[role="option"]:hover {
+    background: var(--sx-brand-tint) !important;
+}
+[role="option"][aria-selected="true"] {
+    background: var(--sx-brand-tint) !important;
+    color: var(--sx-brand-deep) !important;
+}
+
+/* Slider track (filled portion) + thumb */
+[data-testid="stSlider"] [role="slider"] {
+    background-color: var(--sx-brand) !important;
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.22) !important;
+}
+div[data-baseweb="slider"] > div > div:nth-child(2) {
+    background: linear-gradient(90deg, var(--sx-brand-strong), var(--sx-brand-glow)) !important;
+}
+
+/* Checkbox / toggle / radio -- checked state */
+[data-testid="stCheckbox"] [aria-checked="true"],
+[data-testid="stToggle"] [aria-checked="true"] {
+    background-color: var(--sx-brand) !important;
+    border-color: var(--sx-brand) !important;
+}
+[data-testid="stRadio"] [aria-checked="true"] > div:first-child {
+    border-color: var(--sx-brand) !important;
+    background-color: var(--sx-brand) !important;
+}
+
+/* Tabs -- active tab underline */
+[data-baseweb="tab-highlight"] {
+    background-color: var(--sx-brand) !important;
+}
+[data-baseweb="tab"][aria-selected="true"] {
+    color: var(--sx-brand-strong) !important;
+}
+
+/* Expander -- header hover/focus */
+[data-testid="stExpander"] summary:hover,
+[data-testid="stExpander"] summary:focus {
+    color: var(--sx-brand-strong) !important;
+}
+
+/* Progress bar fill */
+[data-testid="stProgress"] > div > div > div {
+    background: linear-gradient(90deg, var(--sx-brand-strong), var(--sx-brand-glow)) !important;
+}
+
+/* Links */
+a, a:visited {
+    color: var(--sx-brand-strong);
+}
+a:hover {
+    color: var(--sx-brand-deep);
+}
+
+/* ==========================================================================
+   Richer color system -- a second accent for AI/intelligence surfaces
+   ==========================================================================
+   The palette was cohesive but narrow (teal + grayscale + status colors
+   only). This adds ONE deliberate second hue -- an indigo, cool enough to
+   sit next to the teal without clashing -- reserved specifically for
+   AI-generated content (AI Investigator's summary/reasoning trace, the
+   ReasoningEngine's step markers). Everything else keeps the original
+   palette; this isn't a rainbow pass, it's one considered addition that
+   gives AI-authored content its own visual identity. */
+
+:root {
+    --sx-intelligence: #E11D48;
+    --sx-intelligence-strong: #BE123C;
+    --sx-intelligence-tint: #FFF1F2;
+}
+
+.sx-badge-ai {
+    background: var(--sx-intelligence-tint);
+    color: var(--sx-intelligence-strong);
+}
+
+.sx-ai-panel {
+    background: linear-gradient(135deg, var(--sx-intelligence-tint) 0%, var(--sx-surface) 60%);
+    border: 1px solid rgba(225, 29, 72, 0.22);
+    border-left: 3px solid var(--sx-intelligence);
+    border-radius: var(--sx-radius);
+    padding: 1.1rem 1.3rem;
+}
+
+.sx-ai-panel .sx-ai-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--sx-intelligence-strong);
+    margin-bottom: 0.6rem;
+}
+
+/* Primary buttons: subtle gradient + glow instead of a flat fill --
+   reads as considerably more premium at zero extra markup cost, since
+   it targets Streamlit's existing button DOM. */
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, var(--sx-brand-strong) 0%, var(--sx-brand-deep) 100%);
+    border-color: var(--sx-brand-strong);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, var(--sx-brand-deep) 0%, var(--sx-brand-deep-2) 100%);
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Glow-on-interaction system (purple + rose)
+   ==========================================================================
+   Direct response to feedback that the previous teal palette felt flat.
+   Two rules: (1) every interactive/hoverable surface gets a visible
+   purple-to-rose glow on hover/focus, not just a border color change;
+   (2) restraint is kept by using ONE two-color gradient (violet -> rose)
+   consistently, rather than cycling through unrelated hues -- that's what
+   keeps "colorful and glowing" reading as premium instead of chaotic. */
+
+.sx-glow-text {
+    transition: text-shadow 0.25s ease, color 0.25s ease;
+}
+
+.sx-glow-text:hover {
+    text-shadow: 0 0 18px rgba(124, 58, 237, 0.45), 0 0 36px rgba(225, 29, 72, 0.25);
+}
+
+/* Section titles, card titles, KPI values, table headers -- all glow
+   softly on hover so "any text" responds, per the brief, without making
+   body copy itself multi-colored. (Sidebar nav hover/active glow is
+   handled once, in the consolidated st.navigation() block below.) */
+.sx-section-title,
+.sx-kpi-value,
+.sx-card-title,
+.sx-table thead th {
+    transition: text-shadow 0.2s ease, color 0.2s ease;
+}
+
+.sx-section-title:hover,
+.sx-kpi-value:hover,
+.sx-card-title:hover {
+    text-shadow: 0 0 14px rgba(124, 58, 237, 0.4);
+    color: var(--sx-magenta);
+}
+
+.sx-table thead th:hover {
+    color: var(--sx-magenta) !important;
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+}
+
+/* Cards + KPIs: stronger glow ring on hover, gradient border wash */
+.sx-card:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.25), 0 8px 24px rgba(124, 58, 237, 0.18),
+                0 2px 8px rgba(225, 29, 72, 0.10);
+    border-color: rgba(124, 58, 237, 0.35);
+}
+
+.sx-kpi:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.25), 0 10px 28px rgba(124, 58, 237, 0.22),
+                0 2px 10px rgba(225, 29, 72, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Badges: soft glow ring on hover */
+.sx-badge {
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.sx-badge:hover {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Text inputs / textareas / number inputs / selects: glow ring
+   noticeably brighter than a plain focus border */
+[data-baseweb="input"]:hover,
+[data-baseweb="textarea"]:hover,
+[data-baseweb="base-input"]:hover,
+[data-baseweb="select"] > div:hover {
+    border-color: rgba(124, 58, 237, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12) !important;
+}
+
+/* Buttons: gradient glow ring on hover, purple -> rose */
+.stButton > button:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 6px 20px rgba(124, 58, 237, 0.25),
+                0 2px 10px rgba(225, 29, 72, 0.15) !important;
+    border-color: var(--sx-brand) !important;
+    transform: translateY(-1px);
+}
+
+/* Metric widgets glow on hover, matching cards */
+[data-testid="stMetric"] {
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.22), 0 8px 22px rgba(124, 58, 237, 0.16);
+    transform: translateY(-1px);
+}
+
+/* DataFrame rows: soft violet wash on hover instead of plain gray */
+div[data-testid="stDataFrame"] {
+    transition: box-shadow 0.2s ease;
+}
+
+div[data-testid="stDataFrame"]:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.18), 0 6px 18px rgba(124, 58, 237, 0.12);
+}
+
+/* Expander header glow on hover */
+[data-testid="stExpander"] summary:hover {
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+}
+
+/* ==========================================================================
+   Module link grid (Overview page) -- small, genuinely clickable cards
+   ==========================================================================
+   Built on st.page_link (real Streamlit navigation), not decorative HTML,
+   so clicking one actually opens that page.
+
+   FIX: this used to be scoped under ".sx-module-grid div[data-testid=...]",
+   relying on a <div class="sx-module-grid"> opened in one st.markdown()
+   call to "wrap" st.columns()/st.page_link() calls that came after it.
+   That doesn't work -- each Streamlit call renders its own sibling DOM
+   block, not a nested one, so the wrapping div never actually contained
+   the page links and the scoped selector matched nothing (confirmed by
+   inspecting Streamlit's real PageLink.js bundle: the data-testid names
+   were correct, the SCOPE was the actual bug).
+
+   Fix: style every stPageLink globally instead of trying to scope it.
+   Safe because st.page_link is used in exactly one place in this app
+   (this Overview page's module grid) -- confirmed by grepping the whole
+   codebase, so there's no risk of this styling something unrelated. */
+
+div[data-testid="stPageLink"] {
+    margin-bottom: 10px;
+}
+
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"] {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    padding: 0.8rem 1rem;
+    box-shadow: var(--sx-shadow-sm);
+    text-decoration: none !important;
+    transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+    min-height: 52px;
+}
+
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"]:hover {
+    background: var(--sx-gradient-soft);
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.35), 0 8px 24px rgba(124, 58, 237, 0.22),
+                0 2px 12px rgba(225, 29, 72, 0.14);
+    border-color: rgba(124, 58, 237, 0.45);
+    transform: translateY(-2px);
+}
+
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"] p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--sx-ink) !important;
+    margin: 0;
+    white-space: normal;
+    transition: text-shadow 0.2s ease;
+}
+
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"]:hover p {
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+/* Icon size/spacing inside the link */
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"] span[data-testid="stIconMaterial"],
+div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"] div[data-testid="stMarkdownContainer"] {
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   st.navigation() sectioned sidebar -- real sections/icons via Streamlit's
+   official API (see Overview.py), styled to match the rest of the app.
+   ========================================================================== */
+
+[data-testid="stSidebarNav"] {
+    padding-top: 0.6rem;
+}
+
+/* Section group labels ("Core", "Intelligence", "Decision Support", "Operations") */
+[data-testid="stSidebarNav"] [data-testid="stNavSectionHeader"],
+[data-testid="stSidebarNav"] [data-testid="stSidebarNavSeparator"],
+[data-testid="stSidebarNav"] p.sx-nav-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #C4B5FD !important;
+    padding: 1rem 1.1rem 0.35rem 1.1rem;
+    opacity: 0.85;
+}
+
+/* Nav row wrapper -- gives every item breathing room so its own glow
+   box doesn't collide with its neighbors */
+[data-testid="stSidebarNavItems"] > li {
+    margin: 3px 10px;
+}
+
+/* The actual clickable pill -- rounded box, forms around the item the
+   cursor is on, colorful glow, smooth motion. This is the "box forms
+   around whichever item you touch" effect. */
+[data-testid="stSidebarNav"] a {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem !important;
+    transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.15s ease, border-color 0.22s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    color: #E9D5FF !important;
+}
+
+[data-testid="stSidebarNav"] a:hover {
+    background: var(--sx-gradient-soft-strong);
+    box-shadow: var(--sx-glow-md);
+    border-color: rgba(196, 181, 253, 0.45);
+    transform: translateX(2px);
+}
+
+[data-testid="stSidebarNav"] a:hover span,
+[data-testid="stSidebarNav"] a:hover p {
+    color: #FFFFFF !important;
+    text-shadow: 0 0 10px rgba(196, 181, 253, 0.6);
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: var(--sx-gradient-soft-strong);
+    border: 1px solid rgba(196, 181, 253, 0.55);
+    box-shadow: var(--sx-glow-md);
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] span,
+[data-testid="stSidebarNav"] a[aria-current="page"] p {
+    color: #FFFFFF !important;
+    font-weight: 650;
+    text-shadow: 0 0 12px rgba(196, 181, 253, 0.55);
+}
+
+/* Icon glow -- the emoji icons st.Page() provides get a subtle drop
+   shadow so they read as "lit up" rather than flat */
+[data-testid="stSidebarNav"] [data-testid="stIconEmoji"] {
+    filter: drop-shadow(0 0 5px rgba(196, 181, 253, 0.55));
+}
+
+/* ==========================================================================
+   Overview page -- entrance animation + broad colorful text glow
+   ==========================================================================
+   Scoped to .st-key-sx_overview_page (a wrapper class Overview.py adds around its
+   content) rather than applied site-wide -- a glow-on-hover on every word
+   of a dense data table elsewhere would hurt usability, but on a mostly-
+   prose landing page it reads as premium, exactly where it was asked for. */
+
+.st-key-sx_overview_page {
+    animation: sx-fade-in-up 0.6s ease-out both;
+}
+
+.st-key-sx_overview_page .sx-section-header {
+    animation: sx-fade-in-up 0.6s ease-out both;
+}
+
+@keyframes sx-fade-in-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger each section slightly so content cascades in rather than
+   popping all at once. */
+.st-key-sx_overview_page .sx-section-header:nth-of-type(1) { animation-delay: 0.05s; }
+.st-key-sx_overview_page .sx-section-header:nth-of-type(2) { animation-delay: 0.12s; }
+.st-key-sx_overview_page .sx-section-header:nth-of-type(3) { animation-delay: 0.19s; }
+.st-key-sx_overview_page .sx-section-header:nth-of-type(4) { animation-delay: 0.26s; }
+.st-key-sx_overview_page .sx-section-header:nth-of-type(5) { animation-delay: 0.33s; }
+
+/* Every text element on the Overview page glows colorfully under the
+   cursor -- paragraphs, list items, labels, not just headings. */
+.st-key-sx_overview_page p,
+.st-key-sx_overview_page li,
+.st-key-sx_overview_page span:not(.sx-badge):not(.sx-badge *) {
+    transition: text-shadow 0.25s ease, color 0.25s ease;
+}
+
+.st-key-sx_overview_page p:hover,
+.st-key-sx_overview_page li:hover {
+    text-shadow: 0 0 14px rgba(124, 58, 237, 0.35), 0 0 28px rgba(225, 29, 72, 0.18);
+    color: var(--sx-ink);
+}
+
+/* Eyebrow badge: a subtle live-pulse dot, matching the sidebar's status
+   indicator, so the landing page reads as "live system" from the first
+   line. */
+.sx-hero .sx-eyebrow {
+    position: relative;
+}
+
+.sx-hero .sx-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sx-rose, #E11D48);
+    margin-right: 2px;
+    animation: sx-eyebrow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes sx-eyebrow-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(225, 29, 98, 0.5); }
+    50%      { opacity: 0.6; box-shadow: 0 0 0 4px rgba(225, 29, 98, 0); }
+}
+
+/* Proof-visualization cards -- slightly richer hover than a plain .sx-card,
+   since these are meant to be the page's visual centerpiece. */
+.st-key-sx_overview_page .sx-visual-card {
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    padding: 1rem 1.1rem 0.6rem 1.1rem;
+    box-shadow: var(--sx-shadow-sm);
+    transition: box-shadow 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+}
+
+.st-key-sx_overview_page .sx-visual-card:hover {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.25), 0 12px 28px rgba(124, 58, 237, 0.18),
+                0 4px 14px rgba(225, 29, 98, 0.12);
+    border-color: rgba(124, 58, 237, 0.35);
+    transform: translateY(-3px);
+}
+
+.st-key-sx_overview_page .sx-visual-card .sx-visual-caption {
+    font-size: 0.78rem;
+    color: var(--sx-muted);
+    line-height: 1.5;
+    padding: 0.4rem 0.2rem 0.2rem 0.2rem;
 }

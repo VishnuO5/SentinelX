@@ -33,7 +33,7 @@ jobs:
 
       - name: Compile-check every Python file
         run: |
-          python -m py_compile app.py
+          python -m py_compile Overview.py
           find . -name "*.py" -not -path "./venv/*" -not -path "./.git/*" -exec python -m py_compile {} \;
 
       - name: Run pytest suite

@@ -20,7 +20,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.services.investigation_workspace import InvestigationWorkspace
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+apply_theme()
+sidebar_user()
 st.title("Investigation Workspace")
 
 workspace = InvestigationWorkspace()
@@ -193,3 +196,5 @@ else:
             )
             st.success("Note added.")
             st.rerun()
+
+sidebar_status()

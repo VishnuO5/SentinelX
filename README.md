@@ -51,7 +51,8 @@ Python · Streamlit · SQLite · Pandas/NumPy · Plotly · NetworkX · scikit-le
 
 ```
 SentinelX/
-├── app.py                        # Landing page
+├── Overview.py                   # Landing page (was app.py -- renamed so the
+│                                  #   sidebar nav label reads "Overview")
 ├── config.py                     # Single source of truth: taxonomy, weights, thresholds
 ├── data/train.csv                # Real Jigsaw dataset
 ├── database/sentinelx.db         # SQLite, 14-table schema
@@ -106,7 +107,7 @@ py scripts\generate_counterfactual_runs.py
 py -m src.database.data_loader
 
 # Run the app
-streamlit run app.py
+streamlit run Overview.py
 ```
 
 Optional: set `GROQ_API_KEY` as an environment variable to get live LLM-generated AI Investigator writeups instead of the evidence-based fallback (both are real, evidence-grounded — the fallback just uses templates instead of an LLM call).

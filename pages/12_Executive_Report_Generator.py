@@ -16,7 +16,10 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.repositories.case_repository import CaseRepository
 from src.services.report_generator import generate_case_report_pdf
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+apply_theme()
+sidebar_user()
 st.title("Executive Report Generator")
 st.caption("Generate a one-click, downloadable PDF summary of any investigation.")
 
@@ -65,3 +68,5 @@ if (
         file_name=f"SentinelX_Report_{selected_case_id}.pdf",
         mime="application/pdf",
     )
+
+sidebar_status()

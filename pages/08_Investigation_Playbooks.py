@@ -17,7 +17,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.repositories.playbook_repository import PlaybookRepository
 
-st.set_page_config(layout="wide")
+
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+apply_theme()
+sidebar_user()
 st.title("Investigation Playbooks")
 st.caption("Case-type-specific recommended steps -- spam gets a different playbook than harassment.")
 
@@ -64,3 +67,5 @@ if open_cases:
     st.dataframe(open_cases, use_container_width=True)
 else:
     st.info("No open cases of this type right now.")
+
+sidebar_status()
