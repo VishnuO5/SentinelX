@@ -236,7 +236,7 @@ def render_overview() -> None:
                 textinfo="value+percent initial",
             ))
             apply_chart_theme(fig, height=300)
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
             st.markdown(
                 '<div class="sx-visual-caption">Every real account that entered the pipeline, narrowed stage by stage down to resolution.</div></div>',
                 unsafe_allow_html=True,
@@ -260,7 +260,7 @@ def render_overview() -> None:
                        "bgcolor": "rgba(225,29,72,0.06)"},
             ))
             apply_chart_theme(fig, height=300)
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
             st.markdown(
                 '<div class="sx-visual-caption">Unsupervised campaign detection, validated against known outcomes with zero access to ground-truth labels.</div></div>',
                 unsafe_allow_html=True,
@@ -278,7 +278,7 @@ def render_overview() -> None:
             ))
             apply_chart_theme(fig, height=300)
             fig.update_layout(showlegend=False)
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
             st.markdown(
                 '<div class="sx-visual-caption">Five independent signals, fused into one composite risk score by the Unified Signal Engine.</div></div>',
                 unsafe_allow_html=True,
@@ -296,7 +296,7 @@ def render_overview() -> None:
             ))
             apply_chart_theme(fig, height=300)
             fig.update_layout(xaxis_title="Composite Risk Score", yaxis_title="Accounts")
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
             st.markdown(
                 '<div class="sx-visual-caption">Real risk distribution across all 600 accounts — most are low-risk, a distinct tail is genuinely dangerous.</div></div>',
                 unsafe_allow_html=True,

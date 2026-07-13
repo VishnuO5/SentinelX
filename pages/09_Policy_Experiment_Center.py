@@ -40,7 +40,7 @@ experiments = repo.list_experiments()
 if experiments:
     st.dataframe(
         experiments,
-        use_container_width=True,
+        width="stretch",
         column_config={
             "baseline_precision": st.column_config.NumberColumn("Baseline Precision", format="%.3f"),
             "baseline_recall": st.column_config.NumberColumn("Baseline Recall", format="%.3f"),
@@ -103,6 +103,6 @@ fig.update_layout(
     xaxis_title="Threshold", yaxis_title="Score", yaxis_range=[0, 1.05],
     height=400, margin=dict(l=20, r=20, t=20, b=20),
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 sidebar_status()

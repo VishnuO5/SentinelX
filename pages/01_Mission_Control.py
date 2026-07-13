@@ -90,7 +90,7 @@ with left:
             xaxis=dict(showgrid=False, showline=True, linecolor="#ECEDF4"),
             yaxis=dict(showgrid=True, gridcolor="#F1F2F6", zeroline=False),
         )
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
     else:
         st.info("No case data yet.")
 
@@ -123,7 +123,7 @@ with right:
             legend=dict(orientation="h", y=-0.12, font=dict(size=10, family="Inter, sans-serif")),
             font=dict(family="Inter, sans-serif", color="#5B6478"),
         )
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
     else:
         st.info("No case data yet.")
 

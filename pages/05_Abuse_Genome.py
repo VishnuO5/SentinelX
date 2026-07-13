@@ -60,7 +60,7 @@ for c in campaigns:
 
 st.dataframe(
     overview_rows,
-    use_container_width=True,
+    width="stretch",
     column_config={
         "Velocity": st.column_config.ProgressColumn("Velocity", min_value=0, max_value=1, format="%.2f"),
         "Similarity": st.column_config.ProgressColumn("Similarity", min_value=0, max_value=1, format="%.3f"),
@@ -97,7 +97,7 @@ fig_compare.update_layout(
     polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
     height=500, margin=dict(l=20, r=20, t=20, b=20),
 )
-st.plotly_chart(fig_compare, use_container_width=True)
+st.plotly_chart(fig_compare, width="stretch")
 
 st.divider()
 
@@ -130,7 +130,7 @@ if selected:
             polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
             showlegend=False, height=350, margin=dict(l=20, r=20, t=20, b=20),
         )
-        st.plotly_chart(fig_dna, use_container_width=True)
+        st.plotly_chart(fig_dna, width="stretch")
 
     with right:
         st.write(f"**Type:** {dna['campaign_type']}")
@@ -140,7 +140,7 @@ if selected:
 
     st.subheader(f"Accounts in {selected}")
     if accounts:
-        st.dataframe(accounts, use_container_width=True)
+        st.dataframe(accounts, width="stretch")
     else:
         st.info("No accounts linked to this campaign.")
 st.divider()

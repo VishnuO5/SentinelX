@@ -104,7 +104,7 @@ with left:
                     }
                     for c in case["latest_comments"]
                 ],
-                use_container_width=True,
+                width="stretch",
             )
         else:
             st.info("No comments on record for this account.")
@@ -120,7 +120,7 @@ with left:
                     }
                     for r in case["latest_reports"]
                 ],
-                use_container_width=True,
+                width="stretch",
             )
         else:
             st.info("No reports on record for this account.")
@@ -140,7 +140,7 @@ with left:
                     }
                     for c in case["cases"]
                 ],
-                use_container_width=True,
+                width="stretch",
             )
         else:
             st.info("No cases have been opened for this account yet.")

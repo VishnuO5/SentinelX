@@ -32,7 +32,7 @@ moderators = repo.list_moderators()
 mod_lookup = {m["moderator_id"]: m["name"] for m in moderators}
 
 st.subheader("Moderator Workload")
-st.dataframe(moderators, use_container_width=True, hide_index=True)
+st.dataframe(moderators, width="stretch", hide_index=True)
 
 st.divider()
 
@@ -159,7 +159,7 @@ if audit:
     st.dataframe(
         [{"Timestamp": a["timestamp"], "Moderator": a.get("moderator_name") or a["moderator_id"],
           "Action": a["action"]} for a in audit],
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
     )
 else:
     st.caption("No audit events yet for this case.")

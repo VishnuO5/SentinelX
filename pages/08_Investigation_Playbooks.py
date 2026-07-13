@@ -64,7 +64,7 @@ st.divider()
 
 st.subheader(f"Open cases of type '{selected_type}'")
 if open_cases:
-    st.dataframe(open_cases, use_container_width=True)
+    st.dataframe(open_cases, width="stretch")
 else:
     st.info("No open cases of this type right now.")
 

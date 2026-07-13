@@ -67,7 +67,7 @@ with left:
         xaxis_title="Weight", yaxis_title=None,
         margin=dict(l=10, r=10, t=10, b=10), height=280,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.subheader("Platform Signal Averages")
     avg_labels = ["Account Age", "Report Volume", "Device Reuse", "IP Region", "Toxicity"]
@@ -78,7 +78,7 @@ with left:
     ]
     fig2 = go.Figure(go.Bar(x=avg_labels, y=avg_values, marker_color=theme.CHART_TERTIARY))
     fig2.update_layout(yaxis_range=[0, 1], margin=dict(l=10, r=10, t=10, b=10), height=280)
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
 # ── Score distribution ───────────────────────────────────────────────────
 with right:
@@ -95,7 +95,7 @@ with right:
         xaxis_title="Composite Risk Score", yaxis_title="Accounts",
         margin=dict(l=10, r=10, t=10, b=10), height=590,
     )
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3, width="stretch")
 
 st.divider()
 
@@ -107,7 +107,7 @@ top = repo.get_top_risk_accounts(limit=20)
 if top:
     st.dataframe(
         top,
-        use_container_width=True,
+        width="stretch",
         column_config={
             "composite_risk_score": st.column_config.ProgressColumn(
                 "Composite Risk", min_value=0, max_value=1, format="%.3f"
@@ -150,7 +150,7 @@ if account_id:
         )
         c1, c2 = st.columns([1, 1])
         with c1:
-            st.plotly_chart(fig4, use_container_width=True)
+            st.plotly_chart(fig4, width="stretch")
         with c2:
             st.metric("Composite Risk Score", f"{signal['composite_risk_score']:.3f}")
             st.write(f"**Computed at:** {signal['computed_at']}")
