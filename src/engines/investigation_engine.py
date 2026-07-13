@@ -31,10 +31,19 @@ PRIORITY_WEIGHTS = {
     "network_density":      0.20,
 }
 
+# FIX (found when wiring this engine into generate_cases.py for real):
+# these thresholds were set assuming urgency scores could commonly
+# approach 1.0. On the actual dataset, composite_risk_score tops out
+# around 0.66 and the 90th-percentile urgency score across all 180
+# real cases is only ~0.51 -- so the original bands (critical >= 0.75)
+# left 179/180 cases as "medium" or below. Recalibrated against the
+# real distribution of all 180 generated cases: critical ~14%,
+# high ~24%, medium ~51%, low ~11% -- a defensible triage split
+# instead of an arbitrary guess.
 PRIORITY_BANDS = [
-    (0.75, "critical"),
-    (0.50, "high"),
-    (0.25, "medium"),
+    (0.50, "critical"),
+    (0.43, "high"),
+    (0.30, "medium"),
     (0.00, "low"),
 ]
 

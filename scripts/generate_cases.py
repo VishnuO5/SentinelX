@@ -28,16 +28,39 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
 import config
+from src.engines.investigation_engine import InvestigationEngine
+from src.engines.signal_engine import SignalEngine
 
 random.seed(config.RANDOM_SEED)
 np.random.seed(config.RANDOM_SEED)
 
 GEN = PROJECT_ROOT / "generated_data"
 
-accounts  = pd.read_csv(GEN / "accounts.csv")
+accounts  = pd.read_csv(GEN / "accounts.csv", parse_dates=["created_at"])
 campaigns = pd.read_csv(GEN / "campaigns.csv")
 reports   = pd.read_csv(GEN / "reports.csv")
 behaviour = pd.read_csv(GEN / "behaviour.csv")
+comments  = pd.read_csv(GEN / "comments.csv", parse_dates=["posted_at"])
+
+# FIX (issue #14): priority used to come from priority_from_reports(), a
+# single-signal (report count only) threshold function. investigation_engine.py
+# already existed as a real, tested multi-factor priority engine -- it just
+# wasn't wired into the actual generation pipeline, so it powered nothing live.
+#
+# Wiring it in here means computing composite_risk_score BEFORE cases exist,
+# which is normally generate_signal_scores.py's job (and that script runs
+# AFTER generate_cases.py in the pipeline). Rather than reorder the whole
+# pipeline, SignalEngine is called directly here to compute what's needed --
+# the same formula, just invoked a step earlier. generate_signal_scores.py
+# still runs later and still produces the authoritative signal_scores.csv;
+# this is only for priority computation at case-creation time.
+_signal_engine = SignalEngine()
+_scored_accounts = _signal_engine.score_population(accounts, comments, reports)
+_risk_by_account = _scored_accounts.set_index("account_id")["final_risk"]
+
+_network_density_by_campaign = campaigns.set_index("campaign_id")["network_density"]
+
+_investigation_engine = InvestigationEngine()
 
 # FIX (issue #13): campaign_type and case_type were unified into the same
 # taxonomy in config.py (config.CAMPAIGN_TYPES == config.CASE_TYPES ==
@@ -68,11 +91,24 @@ accounts = accounts.merge(behaviour[["account_id","profile"]], on="account_id", 
 
 # ── Build cases ──────────────────────────────────────────────────────────────
 
-def priority_from_reports(n: int) -> str:
-    if n >= 20: return "critical"
-    if n >= 10: return "high"
-    if n >= 4:  return "medium"
-    return "low"
+def compute_priority(account_row) -> str:
+    """Real multi-factor priority via InvestigationEngine, replacing the
+    old report-count-only threshold. Falls back gracefully if an
+    account somehow has no computed risk score."""
+    account_id = account_row["account_id"]
+    risk_score = _risk_by_account.get(account_id, 0.0)
+
+    camp_id = account_row.get("campaign_id")
+    density = None
+    if pd.notna(camp_id) and camp_id in _network_density_by_campaign.index:
+        density = float(_network_density_by_campaign.loc[camp_id])
+
+    result = _investigation_engine.compute_priority(
+        composite_risk_score=risk_score,
+        report_count=int(account_row["report_count"]),
+        network_density=density,
+    )
+    return result["priority"]
 
 def build_case(idx, account_row, forced_campaign_id=None, forced_case_type=None):
     opened = config.CURRENT_TIME - timedelta(days=random.randint(0, 180))
@@ -90,7 +126,7 @@ def build_case(idx, account_row, forced_campaign_id=None, forced_case_type=None)
         "campaign_id"          : camp_id if pd.notna(camp_id) else None,
         "account_id"           : account_row["account_id"],
         "case_type"            : case_type,
-        "priority"             : priority_from_reports(int(account_row["report_count"])),
+        "priority"             : compute_priority(account_row),
         "status"               : status,
         "opened_at"            : opened.strftime(config.DATE_FORMAT),
         "resolved_at"          : resolved,
