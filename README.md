@@ -4,6 +4,8 @@
 
 SentinelX is an investigation workbench for Trust & Safety analysts. Where a typical analytics dashboard answers *"what happened,"* SentinelX answers *"why did it happen, who's responsible, what's the evidence, and what should we do next."*
 
+**🔗 Live demo: [sentinelx-tns.streamlit.app](https://sentinelx-tns.streamlit.app/)**
+
 ---
 
 ## What it does
