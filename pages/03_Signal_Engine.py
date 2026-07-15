@@ -25,33 +25,29 @@ from src.repositories.signal_repository import SignalRepository
 from src.engines.signal_engine import SignalEngine
 
 
-from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status, page_header, card_header
 import src.ui.theme as theme
 apply_theme()
 sidebar_user()
-st.title("Unified Signal Engine")
-st.caption(
-    "Five independent signals, fused into one composite risk score. "
-    "No single signal decides the outcome on its own."
-)
+page_header("📡", "Unified Signal Engine", "Five independent signals, fused into one composite risk score. No single signal decides the outcome on its own.")
 
 repo = SignalRepository()
 stats = repo.get_engine_stats()
 
 # ── Overview KPIs ────────────────────────────────────────────────────────
+st.markdown(f'<div class="sx-card">{card_header("📡", "Engine overview")}', unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Accounts Scored", f"{stats.get('total_accounts', 0):,}")
 col2.metric("Average Composite Risk", f"{stats.get('avg_composite', 0):.3f}")
 col3.metric("Lowest Score", f"{stats.get('min_composite', 0):.3f}")
 col4.metric("Highest Score", f"{stats.get('max_composite', 0):.3f}")
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 left, right = st.columns([1, 1])
 
 # ── Weight breakdown ─────────────────────────────────────────────────────
 with left:
-    st.subheader("Signal Weights")
+    st.markdown(f'<div class="sx-card">{card_header("⚖️", "Signal weights")}', unsafe_allow_html=True)
     st.caption("How much each signal contributes to the composite score.")
 
     weights = repo.get_weights()
@@ -66,10 +62,13 @@ with left:
     fig.update_layout(
         xaxis_title="Weight", yaxis_title=None,
         margin=dict(l=10, r=10, t=10, b=10), height=280,
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color=theme.CHART_NEUTRAL),
     )
     st.plotly_chart(fig, width="stretch")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-    st.subheader("Platform Signal Averages")
+    st.markdown(f'<div class="sx-card">{card_header("📶", "Platform signal averages")}', unsafe_allow_html=True)
     avg_labels = ["Account Age", "Report Volume", "Device Reuse", "IP Region", "Toxicity"]
     avg_values = [
         stats.get("avg_age", 0), stats.get("avg_reports", 0),
@@ -77,12 +76,17 @@ with left:
         stats.get("avg_toxicity", 0),
     ]
     fig2 = go.Figure(go.Bar(x=avg_labels, y=avg_values, marker_color=theme.CHART_TERTIARY))
-    fig2.update_layout(yaxis_range=[0, 1], margin=dict(l=10, r=10, t=10, b=10), height=280)
+    fig2.update_layout(
+        yaxis_range=[0, 1], margin=dict(l=10, r=10, t=10, b=10), height=280,
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color=theme.CHART_NEUTRAL),
+    )
     st.plotly_chart(fig2, width="stretch")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Score distribution ───────────────────────────────────────────────────
 with right:
-    st.subheader("Composite Risk Score Distribution")
+    st.markdown(f'<div class="sx-card">{card_header("📊", "Composite risk score distribution")}', unsafe_allow_html=True)
     st.caption("Where every account falls, in 0.1-wide buckets.")
 
     dist = repo.get_score_distribution()
@@ -93,14 +97,15 @@ with right:
     ))
     fig3.update_layout(
         xaxis_title="Composite Risk Score", yaxis_title="Accounts",
-        margin=dict(l=10, r=10, t=10, b=10), height=590,
+        margin=dict(l=10, r=10, t=10, b=10), height=616,
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color=theme.CHART_NEUTRAL),
     )
     st.plotly_chart(fig3, width="stretch")
-
-st.divider()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Top risk accounts table with per-signal breakdown ────────────────────
-st.subheader("Highest-Risk Accounts")
+st.markdown(f'<div class="sx-card">{card_header("🚨", "Highest-risk accounts")}', unsafe_allow_html=True)
 st.caption("Top 20 by composite score, with each contributing signal shown.")
 
 top = repo.get_top_risk_accounts(limit=20)
@@ -121,11 +126,10 @@ if top:
     )
 else:
     st.info("No signal scores found. Run scripts/generate_signal_scores.py.")
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Single-account lookup ────────────────────────────────────────────────
-st.subheader("Look Up a Single Account")
+st.markdown(f'<div class="sx-card">{card_header("🔎", "Look up a single account")}', unsafe_allow_html=True)
 account_id = st.text_input("Account ID", placeholder="e.g. ACC-000005")
 
 if account_id:
@@ -147,6 +151,8 @@ if account_id:
         fig4.update_layout(
             polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
             showlegend=False, margin=dict(l=20, r=20, t=20, b=20), height=400,
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=theme.CHART_NEUTRAL),
         )
         c1, c2 = st.columns([1, 1])
         with c1:
@@ -156,8 +162,7 @@ if account_id:
             st.write(f"**Computed at:** {signal['computed_at']}")
             for label, value in zip(radar_labels, radar_values):
                 st.write(f"**{label}:** {value:.3f}")
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Live scoring: hypothetical account ───────────────────────────────────
 # WIRING NOTE: everything above this line reads pre-computed scores from
@@ -166,7 +171,7 @@ st.divider()
 # SignalEngine LIVE, on demand, with values you type in -- the "Unified
 # Signal Engine" module actually running as an engine, not just displaying
 # a batch script's output.
-st.subheader("Score a Hypothetical Account")
+st.markdown(f'<div class="sx-card">{card_header("🧪", "Score a hypothetical account")}', unsafe_allow_html=True)
 st.caption(
     "Runs the real Signal Engine live against these inputs, normalized "
     "against the current account population -- not a pre-computed lookup."
@@ -209,5 +214,6 @@ if submitted:
     r3.metric("Device", f"{result['device_reuse_signal']:.3f}")
     r4.metric("IP", f"{result['ip_region_signal']:.3f}")
     r5.metric("Toxicity", f"{result['toxicity_signal']:.3f}")
+st.markdown("</div>", unsafe_allow_html=True)
 
 sidebar_status()

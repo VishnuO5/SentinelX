@@ -21,12 +21,14 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.services.investigation_workspace import InvestigationWorkspace
 
 
-from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status, page_header, card_header, badge
 apply_theme()
 sidebar_user()
-st.title("Investigation Workspace")
+page_header("🗂️", "Investigation Workspace", "Search an account, review its real evidence, and log what you found.")
 
 workspace = InvestigationWorkspace()
+
+STATUS_KIND = {"active": "good", "flagged": "medium", "suspended": "critical", "banned": "critical"}
 
 # ── Session state: which account is currently open ─────────────────────────
 if "iw_selected_account" not in st.session_state:
@@ -34,13 +36,14 @@ if "iw_selected_account" not in st.session_state:
 
 
 # ── Search / select panel ───────────────────────────────────────────────────
-st.subheader("Find an account")
+st.markdown(f'<div class="sx-card">{card_header("🔍", "Find an account")}', unsafe_allow_html=True)
 
 search_col, _ = st.columns([2, 3])
 with search_col:
     query = st.text_input(
         "Search by account ID or display name",
         placeholder="e.g. ACC-000005 or a display name",
+        label_visibility="collapsed",
     )
 
 results = workspace.search_accounts(query, limit=25)
@@ -53,11 +56,11 @@ else:
         for r in results
     }
     label = "Highest-risk accounts" if not query.strip() else f"Matches for '{query}'"
-    chosen_label = st.selectbox(label, options.keys())
+    st.caption(label)
+    chosen_label = st.selectbox(label, options.keys(), label_visibility="collapsed")
     if st.button("Open case", type="primary"):
         st.session_state.iw_selected_account = options[chosen_label]
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Case view ────────────────────────────────────────────────────────────────
 account_id = st.session_state.iw_selected_account
@@ -72,7 +75,9 @@ if "error" in case:
     st.error(case["error"])
     st.stop()
 
-st.subheader(f"{case['account_id']} — {case['display_name']}")
+case_title = f"{case['account_id']} — {case['display_name']}"
+st.markdown(f'<div class="sx-card">{card_header("🗎", case_title)}', unsafe_allow_html=True)
+st.markdown(badge(case["status"], STATUS_KIND.get(case["status"], "low")), unsafe_allow_html=True)
 
 kpi1, kpi2, kpi3, kpi4, kpi5 = st.columns(5)
 kpi1.metric("Risk score", f"{case['risk_score']:.3f}")
@@ -80,13 +85,12 @@ kpi2.metric("Status", case["status"])
 kpi3.metric("Campaign", case["campaign_id"] or "— none —")
 kpi4.metric("Comments", case["total_comments"])
 kpi5.metric("Reports", case["total_reports"])
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 left, right = st.columns([2, 1])
 
 with left:
-    st.markdown("### Evidence")
+    st.markdown(f'<div class="sx-card">{card_header("🧾", "Evidence")}', unsafe_allow_html=True)
 
     tab_comments, tab_reports, tab_cases = st.tabs(
         ["Comments", "Reports", f"Cases ({case['total_cases']})"]
@@ -144,9 +148,10 @@ with left:
             )
         else:
             st.info("No cases have been opened for this account yet.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 with right:
-    st.markdown("### Unified Signal Engine")
+    st.markdown(f'<div class="sx-card">{card_header("📡", "Unified Signal Engine")}', unsafe_allow_html=True)
     if case["signals"]:
         s = case["signals"]
         st.metric("Composite risk", f"{s['final_risk']:.3f}")
@@ -157,11 +162,10 @@ with right:
         st.progress(min(s["toxicity"], 1.0), text=f"Toxicity signal — {s['toxicity']:.2f}")
     else:
         st.info("No signal score computed for this account yet.")
-
-st.divider()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Investigation notes ─────────────────────────────────────────────────────
-st.markdown("### Investigation notes")
+st.markdown(f'<div class="sx-card">{card_header("📝", "Investigation notes")}', unsafe_allow_html=True)
 
 if not case["cases"]:
     st.info("Notes can only be added to a case. This account has no open case yet.")
@@ -196,5 +200,6 @@ else:
             )
             st.success("Note added.")
             st.rerun()
+st.markdown("</div>", unsafe_allow_html=True)
 
 sidebar_status()

@@ -18,21 +18,22 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.repositories.campaign_repository import CampaignRepository
-from src.engines.campaign_engine import CampaignEngine
+from src.engines.campaign_engine import CampaignEngine, FEATURE_COLUMNS
 
 
-from src.ui.theme import apply_theme, sidebar_user, sidebar_status
+from src.ui.theme import apply_theme, sidebar_user, sidebar_status, page_header, card_header
 import src.ui.theme as theme
 apply_theme()
 sidebar_user()
-st.title("Abuse Genome")
-st.caption("Campaign DNA: velocity, similarity, network density, and report volume, side by side.")
+page_header("🧬", "Abuse Genome", "Campaign DNA: velocity, similarity, network density, and report volume, side by side.")
 
 repo = CampaignRepository()
 campaigns = repo.list_campaigns()
@@ -42,7 +43,7 @@ if not campaigns:
     st.stop()
 
 # ── Overview: all campaigns compared ──────────────────────────────────────
-st.subheader("All Campaigns")
+st.markdown(f'<div class="sx-card">{card_header("🧬", "All campaigns")}', unsafe_allow_html=True)
 
 overview_rows = []
 for c in campaigns:
@@ -67,11 +68,10 @@ st.dataframe(
         "Network Density": st.column_config.ProgressColumn("Network Density", min_value=0, max_value=1, format="%.2f"),
     },
 )
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Compare campaign types ──────────────────────────────────────────────
-st.subheader("DNA by Campaign Type")
+st.markdown(f'<div class="sx-card">{card_header("🐾", "DNA by campaign type")}', unsafe_allow_html=True)
 st.caption("Average signature per abuse type -- this is what should differentiate a bot network from a harassment campaign.")
 
 by_type: dict[str, list] = {}
@@ -96,13 +96,14 @@ for campaign_type, dna_list in by_type.items():
 fig_compare.update_layout(
     polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
     height=500, margin=dict(l=20, r=20, t=20, b=20),
+    paper_bgcolor="rgba(0,0,0,0)",
+    font=dict(color=theme.CHART_NEUTRAL),
 )
 st.plotly_chart(fig_compare, width="stretch")
-
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Single campaign deep dive ─────────────────────────────────────────────
-st.subheader("Campaign Deep Dive")
+st.markdown(f'<div class="sx-card">{card_header("🔬", "Campaign deep dive")}', unsafe_allow_html=True)
 
 campaign_ids = [c["campaign_id"] for c in campaigns]
 selected = st.selectbox("Select a campaign", options=campaign_ids)
@@ -129,6 +130,8 @@ if selected:
         fig_dna.update_layout(
             polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
             showlegend=False, height=350, margin=dict(l=20, r=20, t=20, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=theme.CHART_NEUTRAL),
         )
         st.plotly_chart(fig_dna, width="stretch")
 
@@ -138,12 +141,12 @@ if selected:
         st.write(f"**Member accounts:** {dna['account_count']}")
         st.write(f"**Total reports across all members:** {dna['report_count']}")
 
-    st.subheader(f"Accounts in {selected}")
+    st.markdown(f"#### Accounts in {selected}")
     if accounts:
         st.dataframe(accounts, width="stretch")
     else:
         st.info("No accounts linked to this campaign.")
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Independent detection validation ─────────────────────────────────────
 # WIRING NOTE: everything above reads campaign_id assignments that were
@@ -153,7 +156,7 @@ st.divider()
 # independently-discovered clusters actually match them -- the same way
 # you'd validate a real anomaly-detection system against held-out ground
 # truth, not just display pre-labeled data.
-st.subheader("Independent Detection Validation")
+st.markdown(f'<div class="sx-card">{card_header("✅", "Independent detection validation")}', unsafe_allow_html=True)
 st.caption(
     "Runs unsupervised DBSCAN clustering over raw account signals "
     "(device reuse, account age, report volume, toxicity, comment-text "
@@ -183,5 +186,64 @@ if st.button("Run independent campaign detection"):
         f"{metrics['false_positives']} false positives out of "
         f"{metrics['false_positives'] + metrics['true_negatives']} organic accounts."
     )
+
+    # ── PCA scatter: the recall/precision numbers above, made visible ───
+    # The 5 raw signal features DBSCAN clustered on (device reuse, account
+    # age, report volume, toxicity, text similarity) are reduced to 2D via
+    # PCA purely for plotting -- the clustering itself already happened
+    # above, in the real 5-dimensional space. Each point is colored by
+    # where it lands in the confusion matrix (flagged vs. real campaign
+    # membership), so the 100%/91.5%-style numbers are something you can
+    # actually see, not just read in a table.
+    st.markdown("#### What the detector actually found")
+    st.caption(
+        "Each dot is one account, projected from the real 5-signal feature "
+        "space down to 2D for plotting. Color shows whether the detector's "
+        "call agreed with the real campaign label."
+    )
+
+    X = StandardScaler().fit_transform(labeled[FEATURE_COLUMNS])
+    coords = PCA(n_components=2, random_state=42).fit_transform(X)
+
+    is_true_campaign = labeled["campaign_id"].notna().values
+    is_flagged = labeled["flagged"].values
+
+    category = pd.Series(
+        [
+            "True positive (flagged, real campaign)" if f and t else
+            "False positive (flagged, not a campaign)" if f and not t else
+            "False negative (missed, real campaign)" if not f and t else
+            "True negative (not flagged, organic)"
+            for f, t in zip(is_flagged, is_true_campaign)
+        ]
+    )
+    CATEGORY_COLORS = {
+        "True positive (flagged, real campaign)": theme.CHART_ACCENT_TEAL,
+        "False positive (flagged, not a campaign)": theme.CHART_SECONDARY,
+        "False negative (missed, real campaign)": theme.CHART_ACCENT_AMBER,
+        "True negative (not flagged, organic)": theme.CHART_NEUTRAL,
+    }
+
+    fig_scatter = go.Figure()
+    for cat, color in CATEGORY_COLORS.items():
+        mask = category == cat
+        if mask.sum() == 0:
+            continue
+        fig_scatter.add_trace(go.Scatter(
+            x=coords[mask.values, 0], y=coords[mask.values, 1],
+            mode="markers", name=cat,
+            marker=dict(size=7, color=color, opacity=0.75, line=dict(width=0)),
+            hovertext=labeled.loc[mask.values, "account_id"],
+            hoverinfo="text",
+        ))
+    fig_scatter.update_layout(
+        height=460, margin=dict(l=20, r=20, t=10, b=20),
+        xaxis_title="PCA component 1", yaxis_title="PCA component 2",
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color=theme.CHART_NEUTRAL),
+        legend=dict(orientation="h", y=-0.18),
+    )
+    st.plotly_chart(fig_scatter, width="stretch")
+st.markdown("</div>", unsafe_allow_html=True)
 
 sidebar_status()

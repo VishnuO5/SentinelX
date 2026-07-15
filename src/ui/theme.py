@@ -83,7 +83,7 @@ def sidebar_brand(role: str = "Trust & Safety Analyst", status_label: str = "Liv
             <div class="sx-pulse-dot"></div>
             <span>{status_label}</span>
         </div>
-        """,
+        """.strip(),
         unsafe_allow_html=True,
     )
 
@@ -110,6 +110,31 @@ def badge(text: str, kind: str = "low") -> str:
     return f'<span class="sx-badge sx-badge-{kind}">{text}</span>'
 
 
+_CHIP_PALETTE = [
+    "#6D28D9",  # violet
+    "#BE185D",  # rose
+    "#0F766E",  # teal
+    "#B45309",  # amber
+    "#1D4ED8",  # blue
+    "#4D7C0F",  # lime
+    "#9333EA",  # purple
+    "#0369A1",  # sky
+]
+
+
+def chip(text: str) -> str:
+    """A small colorful pill for plain categorical text that would
+    otherwise render as flat, uncolored words in a table (a case type
+    like "spam" or "scam", for example). Picks a color deterministically
+    from a fixed palette based on the text itself, so the same category
+    always gets the same color everywhere it appears, and glows in that
+    same color on hover via .sx-chip's currentColor box-shadow -- no
+    per-category CSS class needed."""
+    color = _CHIP_PALETTE[sum(ord(ch) for ch in text) % len(_CHIP_PALETTE)]
+    label = text.replace("_", " ")
+    return f'<span class="sx-chip" style="color:{color};background:{color}1A;">{label}</span>'
+
+
 def pill(text: str, direction: str = "flat") -> str:
     direction = direction if direction in ("up", "down", "flat") else "flat"
     arrow = {"up": "▲", "down": "▼", "flat": "●"}[direction]
@@ -117,13 +142,22 @@ def pill(text: str, direction: str = "flat") -> str:
 
 
 def banner_stat(icon: str, label: str, value, pill_html: str = "") -> str:
-    return f"""
-    <div class="sx-banner-stat">
-        <div class="sx-stat-label">{icon} {label}</div>
-        <div class="sx-stat-value">{value}</div>
-        {pill_html}
-    </div>
-    """
+    # NOTE: must return a single block with no leading/trailing blank lines.
+    # kpi_banner() joins several of these with "".join() -- if each one
+    # kept the blank line that a triple-quoted f-string naturally has at
+    # its start/end, the joined result has whitespace-only lines *between*
+    # each card. Streamlit's Markdown renderer treats an indented block
+    # that follows a blank line as a literal code block, so instead of
+    # rendering as cards, the raw "<div class=...>" text shows up on the
+    # page. .strip() removes exactly that blank line so nothing about the
+    # HTML block ever gets interrupted, however many of these get joined.
+    return (
+        f'<div class="sx-banner-stat">'
+        f'<div class="sx-stat-label">{icon} {label}</div>'
+        f'<div class="sx-stat-value">{value}</div>'
+        f'{pill_html}'
+        f'</div>'
+    )
 
 
 def kpi_banner(stats_html: list[str]) -> None:
@@ -133,12 +167,12 @@ def kpi_banner(stats_html: list[str]) -> None:
 
 def proof_stat(value, label: str) -> str:
     """One tile in the Overview page's 'proof of work' stat strip."""
-    return f"""
-    <div class="sx-proof-stat">
+    # Same blank-line fix as banner_stat() above -- proof_grid() joins
+    # several of these too.
+    return f"""<div class="sx-proof-stat">
         <div class="sx-proof-value">{value}</div>
         <div class="sx-proof-label">{label}</div>
-    </div>
-    """
+    </div>""".strip()
 
 
 def proof_grid(stats_html: list[str]) -> None:
@@ -147,12 +181,61 @@ def proof_grid(stats_html: list[str]) -> None:
 
 
 def card_header(icon: str, title: str) -> str:
-    return f"""
-    <div class="sx-card-header">
+    # Same fix -- this one hasn't shown the bug yet only because nothing
+    # currently joins two card_header() calls back to back, but it has
+    # the identical shape, so it gets the identical fix pre-emptively.
+    return f"""<div class="sx-card-header">
         <div class="sx-card-icon">{icon}</div>
         <div class="sx-card-title">{title}</div>
-    </div>
-    """
+    </div>""".strip()
+
+
+def wilson_ci(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """95% Wilson score confidence interval for a binomial proportion
+    (default z=1.96). Same method used for PraxisIQ's confidence
+    intervals -- appropriate here for precision/recall, which are both
+    just proportions (TP / predicted-positive, TP / actual-positive)
+    over a finite, real sample of accounts, not population parameters."""
+    if n == 0:
+        return (0.0, 0.0)
+    p = successes / n
+    denom = 1 + (z ** 2) / n
+    centre = p + (z ** 2) / (2 * n)
+    adj = z * ((p * (1 - p) / n + (z ** 2) / (4 * n ** 2)) ** 0.5)
+    low = (centre - adj) / denom
+    high = (centre + adj) / denom
+    return (max(0.0, low), min(1.0, high))
+
+
+def page_header(icon: str, title: str, subtitle: str = "") -> None:
+    """Drop-in replacement for the `st.title("X"); st.caption("Y")` pair
+    every page used to open with. Same information, presented as one
+    premium unit: an icon chip, a glow-on-hover title (the same
+    .sx-glow-text treatment Mission Control and the Overview hero use),
+    and a muted subtitle line -- so every page in the app opens with a
+    consistent, considered first impression instead of a plain black
+    <h1>. A single call, called once at the top of a page, so the
+    triple-quoted-string leading-blank-line issue documented on
+    banner_stat() above never applies here."""
+    # The subtitle <div> is now ALWAYS emitted, even when subtitle="" --
+    # never conditionally included or excluded. Investigation Workspace is
+    # the only page that calls page_header() without a subtitle, and is
+    # the only page where a "</div>" leak has been seen; always emitting
+    # a structurally identical string (just with empty text content when
+    # there's no subtitle) removes that difference entirely instead of
+    # trying to special-case around it. Empty subtitles are hidden via
+    # the .sx-page-subtitle:empty rule in style.css, not by omitting the
+    # tag in Python.
+    st.markdown(
+        f'<div class="sx-page-header">'
+        f'<div class="sx-page-header-icon">{icon}</div>'
+        f'<div>'
+        f'<div class="sx-page-title sx-glow-text">{title}</div>'
+        f'<div class="sx-page-subtitle">{subtitle}</div>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
 
 # ---------------------------------------------------------------------

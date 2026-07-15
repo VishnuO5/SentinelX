@@ -87,10 +87,26 @@ SentinelX/
 
 ## Running it locally
 
+### Option A -- just run the app (fastest, no dataset download needed)
+
+`database/sentinelx.db` and every CSV in `generated_data/` are already committed to this repo, fully built. You do **not** need to regenerate anything to see the product:
+
+```powershell
+pip install -r requirements.txt
+streamlit run Overview.py
+```
+
+### Option B -- regenerate the full synthetic dataset from scratch
+
+Only needed if you want to rebuild the data yourself (e.g. to change `config.py`'s weights/thresholds and see the effect end-to-end). This path needs the real Jigsaw Toxic Comment Classification dataset, which is **not** committed to the repo (it's in `.gitignore` -- too large for GitHub):
+
+1. Download `train.csv` from the [Jigsaw Toxic Comment Classification Challenge](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge) on Kaggle (requires a free Kaggle account).
+2. Place it at `data/train.csv`.
+3. Run the generator pipeline, in order:
+
 ```powershell
 pip install -r requirements.txt
 
-# Build the full synthetic dataset (run once, in order)
 py scripts\init_db.py
 py scripts\generate_behaviour.py
 py scripts\generate_campaigns.py
@@ -108,11 +124,10 @@ py scripts\generate_policy_experiments.py
 py scripts\generate_counterfactual_runs.py
 py -m src.database.data_loader
 
-# Run the app
 streamlit run Overview.py
 ```
 
-Optional: set `GROQ_API_KEY` as an environment variable to get live LLM-generated AI Investigator writeups instead of the evidence-based fallback (both are real, evidence-grounded — the fallback just uses templates instead of an LLM call).
+Optional (either path): set `GROQ_API_KEY` as an environment variable to get live LLM-generated AI Investigator writeups instead of the evidence-based fallback (both are real, evidence-grounded — the fallback just uses templates instead of an LLM call).
 
 ## Portfolio context
 

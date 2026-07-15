@@ -90,7 +90,7 @@ def render_overview() -> None:
                     get an AI-grounded recommendation, and resolve with a full audit trail.
                 </div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -102,7 +102,7 @@ def render_overview() -> None:
             <div class="sx-section-header" style="margin-top: 0.4rem;">
                 <div class="sx-section-title">What This Is, And Why It Exists</div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -128,7 +128,7 @@ def render_overview() -> None:
                     not a set of disconnected demos.
                     </p>
                 </div>
-                """,
+                """.strip(),
                 unsafe_allow_html=True,
             )
         with g2:
@@ -144,13 +144,71 @@ def render_overview() -> None:
                         <li>Full audit trail on every moderator action</li>
                     </ul>
                 </div>
-                """,
+                """.strip(),
                 unsafe_allow_html=True,
             )
 
         # ---------------------------------------------------------------------
-        # Live platform stats (real, queried right now -- not hardcoded)
+        # Capabilities & techniques -- a straight breakdown of what this
+        # platform actually does technically and where each capability
+        # lives, so a reader can see the real engineering depth at a glance
+        # instead of reverse-engineering it from the module grid below.
         # ---------------------------------------------------------------------
+        st.markdown(
+            """
+            <div class="sx-section-header" style="margin-top: 1.3rem;">
+                <div class="sx-section-title">Capabilities &amp; Techniques</div>
+                <div class="sx-section-meta">what's actually implemented under the hood, and where to see it</div>
+            </div>
+            """.strip(),
+            unsafe_allow_html=True,
+        )
+
+        CAPABILITY_MAPPING = [
+            ("Data analysis &amp; summary statistics",
+             "Signal Engine's 5-signal fusion + live scoring, Policy Experiment Center's precision/recall/F1 sweep with 95% Wilson confidence intervals, Mission Control's case-volume trend"),
+            ("SQL &amp; Python engineering",
+             "Entire platform: 14 repositories of hand-written parameterized SQL, 4 real engines and 2 AI modules in Python, zero ORM abstraction hiding the queries"),
+            ("Machine learning systems",
+             "Unsupervised DBSCAN campaign detection tuned by grid search, validated against real ground truth (100% recall / 91.5% precision) -- see Abuse Genome's detection scatter plot"),
+            ("Statistical modeling &amp; experiment design",
+             "15-script synthetic data-generation pipeline, TF-IDF cosine-similarity text clustering, Policy Experiment Center's threshold sweep, Counterfactual Simulator's what-if analysis"),
+            ("Multi-source investigation",
+             "Investigation Workspace joins accounts, comments, reports, and case history into one evidence view per account"),
+            ("Anti-abuse experimentation",
+             "Counterfactual Simulator (what would've happened under a different policy) and Policy Experiment Center (live threshold trade-offs)"),
+            ("LLM prompt engineering",
+             "AI Investigator: real Groq LLM calls with a documented evidence-grounded fallback, so every recommendation is auditable either way"),
+            ("Written documentation",
+             "README, METHODOLOGY.md, and FINDINGS.md document every design decision and validated result in plain language -- not just code comments"),
+        ]
+
+        rows_html = "".join(
+            f"""
+            <tr>
+                <td style="font-weight:600; color:var(--sx-ink); width:38%;">{label}</td>
+                <td style="color:var(--sx-muted);">{proof}</td>
+            </tr>
+            """.strip()
+            for label, proof in CAPABILITY_MAPPING
+        )
+        st.markdown(
+            f"""
+            <div class="sx-card">
+                <table class="sx-table" style="width:100%;">
+                    <thead><tr>
+                        <th>Capability</th>
+                        <th>Where it lives in SentinelX</th>
+                    </tr></thead>
+                    <tbody>{rows_html}</tbody>
+                </table>
+            </div>
+            """.strip(),
+            unsafe_allow_html=True,
+        )
+
+
+
         st.markdown(
             f"""
             <div class="sx-section-header" style="margin-top: 1.3rem;">
@@ -179,7 +237,7 @@ def render_overview() -> None:
                     <div class="sx-kpi-sub">{signal_stats['total_accounts']} accounts, population-wide</div>
                 </div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -194,7 +252,7 @@ def render_overview() -> None:
             <div class="sx-section-header" style="margin-top: 1.4rem;">
                 <div class="sx-section-title">The Platform, Visualized</div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -310,7 +368,7 @@ def render_overview() -> None:
             <div class="sx-section-header" style="margin-top: 1.3rem;">
                 <div class="sx-section-title">How It Works</div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -331,13 +389,89 @@ def render_overview() -> None:
                         <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.85rem; margin-bottom:0.3rem;">{label}</div>
                         <div style="font-size:0.72rem; color:var(--sx-muted); line-height:1.4;">{desc}</div>
                     </div>
-                    """,
+                    """.strip(),
                     unsafe_allow_html=True,
                 )
 
         # ---------------------------------------------------------------------
-        # Tech stack
+        # System architecture -- a layered diagram (data generation -> storage
+        # -> logic layer -> UI) so the codebase's real structure is visible
+        # without reading any code. Every count in each layer is a real
+        # count of files/tables in this repo, not a rounded estimate.
         # ---------------------------------------------------------------------
+        st.markdown(
+            """
+            <div class="sx-section-header" style="margin-top: 1.4rem;">
+                <div class="sx-section-title">System Architecture</div>
+                <div class="sx-section-meta">four real layers, top to bottom</div>
+            </div>
+            """.strip(),
+            unsafe_allow_html=True,
+        )
+
+        ARCH_LAYERS = [
+            ("🖥️", "UI Layer", "12 Streamlit pages", "Mission Control, Investigation Workspace, Signal Engine, AI Investigator, Abuse Genome, and 7 more — each reading live from the database, nothing pre-rendered."),
+            ("⚙️", "Logic Layer", "4 engines · 3 services · 2 AI modules · 14 repositories", "Signal fusion, unsupervised DBSCAN campaign detection, investigation orchestration, and moderation actions — all separated from the SQL that backs them."),
+            ("🗄️", "Storage Layer", "SQLite · 14 tables", "accounts, comments, reports, cases, case_notes, case_timeline, signal_scores, campaigns, playbooks, policy_experiments, counterfactual_runs, audit_log, and 2 more."),
+            ("🧪", "Data Generation Layer", "15 scripts", "Builds every account, comment, report, and case from a real toxic-comment dataset plus documented behavioral rules — nothing in this platform is hand-typed sample data."),
+        ]
+
+        for icon, layer, scope, desc in ARCH_LAYERS:
+            st.markdown(
+                f"""
+                <div class="sx-card" style="display:flex; align-items:center; gap:1rem; padding:0.9rem 1.2rem; margin-bottom:0.5rem;">
+                    <div style="font-size:1.4rem;">{icon}</div>
+                    <div style="flex:0 0 170px;">
+                        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.92rem;">{layer}</div>
+                        <div style="font-size:0.74rem; color:var(--sx-brand); font-weight:600;">{scope}</div>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--sx-muted); line-height:1.5; flex:1;">{desc}</div>
+                </div>
+                <div style="text-align:center; color:var(--sx-muted); font-size:1.1rem; margin:-0.15rem 0;">↓</div>
+                """.strip(),
+                unsafe_allow_html=True,
+            )
+
+        # ---------------------------------------------------------------------
+        # By the numbers -- engineering scale, distinct from the business
+        # KPIs above. LOC and test count are documented, stable counts (not
+        # re-run on every page load, same convention as the gauges above);
+        # everything else here is a real, current count of files/tables in
+        # this exact repo.
+        # ---------------------------------------------------------------------
+        st.markdown(
+            """
+            <div class="sx-section-header" style="margin-top: 1.4rem;">
+                <div class="sx-section-title">By The Numbers</div>
+                <div class="sx-section-meta">engineering scale, not business metrics</div>
+            </div>
+            <div class="sx-kpi-grid">
+                <div class="sx-kpi">
+                    <div class="sx-kpi-label">Lines of Python</div>
+                    <div class="sx-kpi-value">7,700+</div>
+                    <div class="sx-kpi-sub">across app, engines &amp; pipeline</div>
+                </div>
+                <div class="sx-kpi">
+                    <div class="sx-kpi-label">Automated Tests</div>
+                    <div class="sx-kpi-value">53</div>
+                    <div class="sx-kpi-sub">CI-enforced on every push</div>
+                </div>
+                <div class="sx-kpi">
+                    <div class="sx-kpi-label">Database Tables</div>
+                    <div class="sx-kpi-value">14</div>
+                    <div class="sx-kpi-sub">fully normalized schema</div>
+                </div>
+                <div class="sx-kpi">
+                    <div class="sx-kpi-label">Real Comments Analyzed</div>
+                    <div class="sx-kpi-value">20,635</div>
+                    <div class="sx-kpi-sub">from the Jigsaw dataset + generated behavior</div>
+                </div>
+            </div>
+            """.strip(),
+            unsafe_allow_html=True,
+        )
+
+
         st.markdown(
             """
             <div class="sx-section-header" style="margin-top: 1.2rem;">
@@ -352,7 +486,7 @@ def render_overview() -> None:
                 <span class="sx-badge sx-badge-low">NetworkX</span>
                 <span class="sx-badge sx-badge-ai">Groq LLM</span>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 
@@ -365,7 +499,7 @@ def render_overview() -> None:
                 <div class="sx-section-title">View the Modules</div>
                 <div class="sx-section-meta">click any module to open it</div>
             </div>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
 

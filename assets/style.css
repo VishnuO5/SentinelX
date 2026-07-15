@@ -525,12 +525,49 @@ h1, h2, h3, h4 {
 }
 
 [data-testid="stMetric"] {
-    background: var(--sx-surface);
+    position: relative;
+    background: linear-gradient(180deg, var(--sx-brand-tint) 0%, var(--sx-surface) 55%);
     border: 1px solid var(--sx-border);
     border-radius: var(--sx-radius);
-    padding: 1rem 1.2rem;
-    box-shadow: var(--sx-shadow-sm);
+    padding: 1.1rem 1.2rem 1rem;
+    box-shadow: var(--sx-shadow-sm), 0 0 0 1px rgba(124, 58, 237, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+    animation: sx-metric-breathe 4.5s ease-in-out infinite;
+    overflow: hidden;
 }
+
+/* Gradient accent bar across the top of every metric card -- visible at
+   rest, not just on hover, so the card reads as "designed" even in a
+   static screenshot (a still image can never show a hover or animation
+   effect, which is what the previous fix relied on entirely). */
+[data-testid="stMetric"]::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sx-brand) 0%, var(--sx-magenta) 100%);
+}
+
+/* NOTE: this used to be declared THREE times across this file (search
+   history shows it grew one hover rule at a time). Because all three
+   selectors had identical specificity, the LAST one in the cascade
+   silently won and quietly overrode the other two -- so the nicer
+   violet+rose glow defined earlier in the file never actually rendered;
+   only the weakest, plainest hover style ever applied. Consolidated to
+   one rule here so nothing downstream can shadow it again. */
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    border-color: rgba(124, 58, 237, 0.35);
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 8px 22px rgba(124, 58, 237, 0.22),
+                0 2px 10px rgba(225, 29, 72, 0.15);
+    animation-play-state: paused;
+}
+
+@keyframes sx-metric-breathe {
+    0%, 100% { box-shadow: var(--sx-shadow-sm), 0 0 0 1px rgba(124, 58, 237, 0.05); }
+    50%      { box-shadow: var(--sx-shadow-sm), 0 0 16px rgba(124, 58, 237, 0.20); }
+}
+
 
 [data-testid="stMetricLabel"] {
     font-size: 0.72rem;
@@ -542,7 +579,7 @@ h1, h2, h3, h4 {
 
 [data-testid="stMetricValue"] {
     font-family: 'Space Grotesk', sans-serif;
-    color: var(--sx-ink);
+    color: var(--sx-brand-deep-2);
 }
 
 div[data-testid="stDataFrame"] {
@@ -784,16 +821,6 @@ a:hover {
     box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 6px 20px rgba(124, 58, 237, 0.25),
                 0 2px 10px rgba(225, 29, 72, 0.15) !important;
     border-color: var(--sx-brand) !important;
-    transform: translateY(-1px);
-}
-
-/* Metric widgets glow on hover, matching cards */
-[data-testid="stMetric"] {
-    transition: box-shadow 0.2s ease, transform 0.15s ease;
-}
-
-[data-testid="stMetric"]:hover {
-    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.22), 0 8px 22px rgba(124, 58, 237, 0.16);
     transform: translateY(-1px);
 }
 
@@ -1044,4 +1071,594 @@ div[data-testid="stPageLink"] a[data-testid="stPageLink-NavLink"] div[data-testi
     color: var(--sx-muted);
     line-height: 1.5;
     padding: 0.4rem 0.2rem 0.2rem 0.2rem;
+}
+
+/* ==========================================================================
+   Mission Control — gradient KPI banner, pills, card headers, activity feed
+   ==========================================================================
+   src/ui/theme.py's kpi_banner()/banner_stat()/pill()/card_header() helpers,
+   and the activity-feed markup in pages/01_Mission_Control.py, emit
+   .sx-banner / .sx-banner-grid / .sx-banner-stat / .sx-stat-label /
+   .sx-stat-value / .sx-pill / .sx-card-header / .sx-card-icon /
+   .sx-activity-* -- none of which had a definition anywhere in this file.
+   That's the entire cause of the "unstyled stacked text" bug: the HTML was
+   always correct, it just had nothing to render against. This section adds
+   all of them, in the same violet/rose brand language, type stack (Space
+   Grotesk / Inter / JetBrains Mono), and glow-on-hover treatment used
+   everywhere else in the app -- the banner mirrors the sidebar's brand-deep
+   gradient so the two "hero" surfaces of the app feel like one system. */
+
+/* ---- Gradient KPI banner ---- */
+
+.sx-banner {
+    position: relative;
+    background: linear-gradient(135deg, var(--sx-brand-deep) 0%, var(--sx-brand-strong) 55%, var(--sx-magenta) 150%);
+    border-radius: var(--sx-radius);
+    padding: 1.7rem 1.9rem 1.55rem 1.9rem;
+    margin: 0.2rem 0 1.5rem 0;
+    box-shadow: var(--sx-shadow-lg), 0 0 44px rgba(124, 58, 237, 0.20);
+    overflow: hidden;
+}
+
+.sx-banner::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.16), transparent 55%),
+                radial-gradient(circle at 88% 82%, rgba(251, 113, 133, 0.24), transparent 50%);
+    pointer-events: none;
+}
+
+.sx-banner-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.sx-banner-stat {
+    padding: 0 1.65rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.16);
+    transition: transform 0.2s ease;
+}
+.sx-banner-stat:hover { transform: translateY(-2px); }
+.sx-banner-stat:first-child { padding-left: 0; }
+.sx-banner-stat:last-child { border-right: none; padding-right: 0; }
+
+.sx-stat-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+}
+
+.sx-stat-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2.15rem;
+    line-height: 1;
+    color: #FFFFFF;
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.22);
+    margin-bottom: 0.6rem;
+}
+
+/* ---- Pills (contextual tags, e.g. inside the banner) ---- */
+
+.sx-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.sx-pill-up   { background: rgba(251, 113, 133, 0.22); border-color: rgba(251, 113, 133, 0.38); }
+.sx-pill-down { background: rgba(45, 212, 191, 0.20); border-color: rgba(45, 212, 191, 0.36); }
+.sx-pill-flat { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.20); }
+
+@media (max-width: 900px) {
+    .sx-banner-grid { grid-template-columns: repeat(2, 1fr); row-gap: 1.4rem; }
+    .sx-banner-stat { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.14); padding-bottom: 1.2rem; }
+}
+
+/* ---- Card header (icon chip + title, above chart/table/feed cards) ---- */
+
+.sx-card-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 0.95rem;
+}
+
+.sx-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--sx-brand-tint);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.sx-card-header .sx-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--sx-ink);
+}
+
+/* ---- "In progress" status badge -- sits alongside critical/high/medium/
+   low/good, used by Mission Control's STATUS_KIND mapping ---- */
+
+.sx-badge-brand { background: var(--sx-brand-tint); color: var(--sx-brand-strong); }
+
+/* ---- Activity feed (Mission Control's case-timeline list) ---- */
+
+.sx-activity-item {
+    display: flex;
+    gap: 11px;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #F1F3F5;
+}
+.sx-activity-item:first-child { padding-top: 0; }
+.sx-activity-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.sx-activity-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+}
+
+.sx-activity-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
+.sx-activity-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.83rem;
+    color: var(--sx-ink);
+    margin-bottom: 2px;
+}
+
+.sx-activity-desc {
+    font-size: 0.78rem;
+    color: var(--sx-muted);
+    line-height: 1.4;
+}
+
+.sx-activity-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--sx-muted-2);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   Site-wide upgrade -- every page, not just Mission Control / Overview
+   ==========================================================================
+   Two kinds of change live in this section:
+
+   1. A REAL FIX. The "belt-and-suspenders" focus/hover block above
+      (search "FIX: warm/yellow highlight") targets [data-baseweb="..."]
+      attributes -- that was the right selector for the Streamlit
+      component library this app was originally built against, but the
+      installed Streamlit version has since moved text inputs, selects,
+      tabs, and the progress bar to react-aria, which never sets
+      data-baseweb at all. Net effect: none of those rules were doing
+      anything -- inputs had no focus glow, the selectbox had no open
+      state, and the tab underline never appeared. This section adds the
+      react-aria-correct selectors alongside the originals so the same
+      intent works on both component generations.
+
+   2. DELIBERATE, RESTRAINED additions -- a page_header() component (icon
+      chip + glow-title + subtitle) so every page opens with the same
+      premium first impression Mission Control has instead of a plain
+      <h1>, a short structural fade-in on page load, and consistent
+      elevation/hover on native widgets (metric, tabs, expander,
+      dataframe, alerts, bordered containers). This deliberately does
+      NOT extend the Overview page's "every paragraph glows on hover"
+      treatment to the rest of the app -- that was scoped to a mostly-
+      prose landing page on purpose (see the note above it), and a
+      glow-on-hover on every cell of a dense investigation table would
+      hurt usability rather than help it. Motion and elevation here are
+      structural, not textual. */
+
+/* ---- page_header(): icon chip + glow title + subtitle ---- */
+
+.sx-page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 0.2rem 0 1.3rem 0;
+    animation: sx-fade-in-up 0.5s ease-out both;
+}
+
+.sx-page-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    font-size: 1.35rem;
+    background: linear-gradient(135deg, var(--sx-brand-tint) 0%, #FDF2F8 100%);
+    border: 1px solid var(--sx-border);
+    box-shadow: var(--sx-shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sx-page-header:hover .sx-page-header-icon {
+    transform: translateY(-2px) rotate(-4deg);
+    box-shadow: var(--sx-shadow-md), 0 0 0 1px rgba(124, 58, 237, 0.18);
+}
+
+.sx-page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: var(--sx-ink);
+    line-height: 1.2;
+    margin-top: 2px;
+}
+
+.sx-page-subtitle {
+    color: var(--sx-muted);
+    font-size: 0.92rem;
+    margin-top: 4px;
+    max-width: 780px;
+    line-height: 1.5;
+}
+
+.sx-page-subtitle:empty {
+    display: none;
+    margin: 0;
+}
+
+/* ---- Global page-entrance motion (every page, not just Overview) ---- */
+
+[data-testid="stMainBlockContainer"] {
+    animation: sx-fade-in-up 0.45s ease-out both;
+}
+
+/* ---- Ambient canvas texture -- barely-there dot grid so the app reads
+   as a considered surface rather than flat gray, at an opacity too low
+   to ever compete with content ---- */
+
+[data-testid="stAppViewContainer"] {
+    background-image: radial-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+    background-size: 26px 26px;
+}
+
+/* ---- Custom scrollbar ---- */
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--sx-border-strong);
+    border-radius: 100px;
+    border: 2px solid var(--sx-canvas);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--sx-brand-glow); }
+
+/* ---- Inputs / textareas / number & date inputs -- react-aria focus glow
+   (the [data-baseweb="input"] rule above no longer matches anything) ---- */
+
+[data-testid="stTextInputRootElement"]:focus-within,
+[data-testid$="RootElement"]:focus-within {
+    border-color: var(--sx-brand) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20) !important;
+}
+
+[data-testid="stTextArea"]:focus-within textarea,
+[data-testid="stNumberInput"]:focus-within,
+[data-testid="stDateInput"]:focus-within {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20) !important;
+    border-radius: var(--sx-radius-sm);
+}
+
+/* ---- Selectbox -- react-aria combobox focus/open glow ---- */
+
+[data-testid="stSelectbox"] [role="group"] {
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    border-radius: var(--sx-radius-sm);
+}
+[data-testid="stSelectbox"]:focus-within [role="group"],
+[data-testid="stSelectbox"] input[aria-expanded="true"] {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20) !important;
+}
+
+/* ---- Tabs -- react-aria selection indicator + active label color
+   (the [data-baseweb="tab..."] rules above no longer match anything) ---- */
+
+[data-testid="stTabs"] [role="tablist"] {
+    border-bottom: 1px solid var(--sx-border);
+    gap: 4px;
+}
+
+[data-testid="stTab"] {
+    border-radius: var(--sx-radius-sm) var(--sx-radius-sm) 0 0;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+[data-testid="stTab"]:hover {
+    background: var(--sx-brand-tint);
+}
+
+[data-testid="stTab"][aria-selected="true"] {
+    color: var(--sx-brand-strong) !important;
+    font-weight: 600;
+}
+
+[data-testid="stTab"] .react-aria-SelectionIndicator {
+    background: linear-gradient(90deg, var(--sx-brand-strong), var(--sx-magenta)) !important;
+    height: 2px;
+    border-radius: 2px;
+}
+
+/* ---- Progress bar -- react-aria track (the old ">div>div>div" selector
+   above targeted a nesting depth this component no longer has) ---- */
+
+[data-testid="stProgressBarTrack"] > div {
+    background: linear-gradient(90deg, var(--sx-brand-strong), var(--sx-brand-glow)) !important;
+    border-radius: 100px;
+}
+[data-testid="stProgressBarTrack"] {
+    border-radius: 100px;
+    overflow: hidden;
+    background: var(--sx-brand-tint);
+}
+
+/* ---- st.expander -- card treatment instead of a bare <details> ---- */
+
+[data-testid="stExpander"] {
+    border: 1px solid var(--sx-border);
+    border-radius: var(--sx-radius);
+    overflow: hidden;
+    box-shadow: var(--sx-shadow-sm);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+[data-testid="stExpander"]:hover {
+    border-color: rgba(124, 58, 237, 0.25);
+    box-shadow: var(--sx-shadow-md);
+}
+[data-testid="stExpander"] summary {
+    padding: 0.15rem 0.2rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+/* ---- st.dataframe -- lift + brand border on hover ---- */
+
+div[data-testid="stDataFrame"] {
+    box-shadow: var(--sx-shadow-sm);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+div[data-testid="stDataFrame"]:hover {
+    border-color: rgba(124, 58, 237, 0.25);
+    box-shadow: var(--sx-shadow-md);
+}
+
+/* ---- st.container(border=True) -- match the .sx-card language ---- */
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: var(--sx-radius) !important;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    border-color: rgba(124, 58, 237, 0.22) !important;
+    box-shadow: var(--sx-shadow-sm);
+}
+
+/* ---- Alerts -- left accent bar + tinted background per severity,
+   matching the badge/status color tokens used everywhere else instead
+   of Streamlit's stock red/green/yellow ---- */
+
+[data-testid="stAlertContainer"] {
+    border-radius: var(--sx-radius-sm);
+    border-left: 3px solid var(--sx-brand);
+}
+[data-testid="stAlertContentInfo"] { background: var(--sx-brand-tint) !important; }
+[data-testid="stAlertContentSuccess"] {
+    background: var(--sx-good-tint) !important;
+}
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentSuccess"]) {
+    border-left-color: var(--sx-good);
+}
+[data-testid="stAlertContentWarning"] { background: var(--sx-medium-tint) !important; }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentWarning"]) {
+    border-left-color: var(--sx-medium);
+}
+[data-testid="stAlertContentError"] { background: var(--sx-critical-tint) !important; }
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentError"]) {
+    border-left-color: var(--sx-critical);
+}
+
+/* ---- Buttons -- secondary hover polish to match the primary button's
+   existing hover treatment ---- */
+
+.stButton > button:not([kind="primary"]):hover {
+    border-color: var(--sx-brand);
+    color: var(--sx-brand-strong);
+    background: var(--sx-brand-tint);
+}
+
+/* ---- Divider -- gradient hairline instead of a flat gray rule ---- */
+
+hr {
+    height: 1px;
+    border: none;
+    background: linear-gradient(90deg, var(--sx-border) 0%, var(--sx-border-strong) 50%, var(--sx-border) 100%);
+}
+
+/* ==========================================================================
+   Colorful glow, everywhere -- pass 2
+   ==========================================================================
+   The app already had a "glow-on-interaction system" (search that heading
+   above): cards, KPIs, badges, buttons, inputs, and stMetric all transition
+   on hover. Two things were still missing, matching what was asked for:
+
+   1. Badges glowed, but always in the same flat purple ring regardless of
+      what color the badge itself was -- a red "Critical" badge and a green
+      "Resolved" badge lit up identically. Fixed below with `currentColor`:
+      since every .sx-badge-* variant already sets its own `color`, the glow
+      can just reuse that instead of hardcoding purple, so each badge glows
+      in its own semantic color for free, no per-kind rules needed.
+
+   2. Plain categorical text -- a case "type" column showing bare words like
+      "spam" or "scam" with no color or box at all -- had nothing to glow,
+      because it was never a box in the first place. `chip()` in theme.py
+      (used by Mission Control's Type column) renders that text as a small
+      colored pill instead, so it participates in the same glow system as
+      every other badge.
+
+   Also: the pre-existing `[data-baseweb="..."]` hover rules above target a
+   component library this app's installed Streamlit version no longer uses
+   for text inputs / selects (see the site-wide-upgrade section's note on
+   this) -- the react-aria-correct hover equivalents are added here so
+   inputs actually glow on hover, not just on focus. */
+
+.sx-badge:hover {
+    box-shadow: 0 0 0 1px currentColor, 0 0 16px -3px currentColor, 0 8px 18px -8px currentColor;
+    transform: translateY(-1px) scale(1.05);
+    filter: brightness(1.08) saturate(1.2);
+}
+
+/* ---- chip(): colorful pill for plain categorical text (case type, etc) --
+   palette is deterministic per-label (same word always gets same color)
+   and each chip glows in its own color via currentColor, same as badges */
+
+.sx-chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 3px 10px;
+    border-radius: 100px;
+    transition: box-shadow 0.2s ease, transform 0.15s ease, filter 0.2s ease;
+}
+
+.sx-chip:hover {
+    box-shadow: 0 0 0 1px currentColor, 0 0 16px -3px currentColor, 0 8px 18px -8px currentColor;
+    transform: translateY(-1px) scale(1.05);
+    filter: brightness(1.08) saturate(1.2);
+}
+
+/* ---- Colorful, glowing subtitles -- "the text below any title" ----
+   Light-background subtitles (page headers, hero, KPI sub-labels) get a
+   violet -> rose gradient text fill; the KPI banner's own labels sit on a
+   dark gradient already, so they get a light gradient instead (a solid
+   violet-on-violet gradient would be nearly invisible there). Both glow
+   brighter on hover, same language as everywhere else. */
+
+.sx-page-subtitle,
+.sx-hero .sx-subtitle,
+.sx-kpi .sx-kpi-sub {
+    background: linear-gradient(90deg, var(--sx-brand-strong) 0%, var(--sx-magenta) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--sx-brand-strong); /* fallback if background-clip: text isn't supported */
+    opacity: 0.86;
+    transition: opacity 0.25s ease, filter 0.25s ease;
+    width: fit-content;
+}
+
+.sx-page-subtitle:hover,
+.sx-hero .sx-subtitle:hover,
+.sx-kpi .sx-kpi-sub:hover {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.4));
+}
+
+.sx-stat-label {
+    background: linear-gradient(90deg, #FFFFFF 0%, #F5D0FE 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: filter 0.25s ease;
+}
+
+.sx-stat-label:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.55));
+}
+
+/* ---- Table cell text glows too, per the brief, kept subtle since this
+   is dense data (whole rows also wash violet on hover, see .sx-table
+   below) ---- */
+
+.sx-table td {
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.sx-table tbody tr:hover td {
+    color: var(--sx-brand-strong);
+}
+
+.sx-table tbody tr:hover td.sx-mono {
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.25);
+}
+
+/* ---- Inputs / selects -- react-aria hover glow (the data-baseweb hover
+   rules above no longer match; see site-wide-upgrade section) ---- */
+
+[data-testid="stTextInputRootElement"]:hover,
+[data-testid$="RootElement"]:hover,
+[data-testid="stSelectbox"] [role="group"]:hover {
+    border-color: rgba(124, 58, 237, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12) !important;
+}
+
+/* ---- A little more life: icon chips float gently, card headers'
+   icon lifts and tilts on hover (page_header already does this; extend
+   the same treatment to every card_header() icon so it's consistent) ---- */
+
+.sx-card-icon {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sx-card-header:hover .sx-card-icon {
+    transform: translateY(-2px) rotate(-4deg);
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+}
+
+/* ---- KPI banner: slow ambient gradient drift so the hero strip reads
+   as alive, not a static image -- subtle enough to not distract from
+   the numbers themselves */
+
+.sx-banner {
+    background-size: 160% 160%;
+    animation: sx-banner-drift 12s ease-in-out infinite;
+}
+
+@keyframes sx-banner-drift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
 }

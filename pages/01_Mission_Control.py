@@ -20,7 +20,7 @@ from src.repositories.mission_control_repository import MissionControlRepository
 import src.ui.theme as theme
 from src.ui.theme import (
     apply_theme, sidebar_user, sidebar_status, kpi_banner, banner_stat,
-    pill, badge, card_header,
+    pill, badge, card_header, chip, page_header,
 )
 
 
@@ -30,18 +30,9 @@ sidebar_user()
 repo = MissionControlRepository()
 kpis = repo.get_kpis()
 
-st.markdown(
-    """
-    <div style="margin: 0.4rem 0 1.2rem 0;">
-        <div class="sx-glow-text" style="font-size:1.9rem;">
-            Mission Control
-        </div>
-        <div style="color:var(--sx-muted); font-size:0.92rem; margin-top:2px;">
-            Active investigations, risk posture, and team activity — live from the database.
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
+page_header(
+    "🎯", "Mission Control",
+    "Active investigations, risk posture, and team activity — live from the database.",
 )
 
 # ---------------------------------------------------------------------
@@ -52,11 +43,11 @@ kpi_banner([
     banner_stat("📂", "Open Investigations", kpis["open_cases"],
                 pill("across all priorities", "flat")),
     banner_stat("⚠️", "High-Risk Accounts", kpis["high_risk_accounts"],
-                pill("risk ≥ 0.4", "down")),
+                pill("risk ≥ 0.4", "flat")),
     banner_stat("🧬", "Active Campaigns", kpis["active_campaigns"],
                 pill("currently tracked", "flat")),
-    banner_stat("📊", "Average Risk", kpis["avg_risk"],
-                pill("population-wide", "up")),
+    banner_stat("📊", "Average Risk", f"{kpis['avg_risk'] * 100:.0f}%",
+                pill("population-wide", "flat")),
 ])
 
 # ---------------------------------------------------------------------
@@ -71,7 +62,25 @@ with left:
         unsafe_allow_html=True,
     )
 
-    trend = repo.get_case_volume_trend()
+    RANGE_OPTIONS = {"30d": 30, "60d": 60, "90d": 90, "All time": None}
+    selected_range = st.radio(
+        "Range", list(RANGE_OPTIONS.keys()), index=3,
+        horizontal=True, label_visibility="collapsed", key="case_volume_range",
+    )
+    # Defensive call: if an older copy of mission_control_repository.py
+    # (one without the `days` parameter) is still on disk, this falls
+    # back to the full-history query instead of crashing the page. The
+    # range buttons will simply have no effect until the repository file
+    # is updated too -- but the page always loads.
+    try:
+        trend = repo.get_case_volume_trend(days=RANGE_OPTIONS[selected_range])
+    except TypeError:
+        st.caption(
+            "⚠️ Range filter inactive — mission_control_repository.py on disk "
+            "is an older version that doesn't accept a `days` argument yet. "
+            "Replace that file to enable filtering."
+        )
+        trend = repo.get_case_volume_trend()
     if trend:
         weeks = [t["week"] for t in trend]
         counts = [t["count"] for t in trend]
@@ -159,16 +168,24 @@ with left:
             pri_badge = badge(c["priority"], PRIORITY_KIND.get(c["priority"], "low"))
             status_badge = badge(c["status"].replace("_", " "), STATUS_KIND.get(c["status"], "low"))
             mod = c["assigned_moderator_id"] or "—"
+            # .strip() on EACH row before concatenating -- accumulating
+            # un-stripped f-strings in a loop leaves a whitespace-only
+            # line between every pair of rows (row1 ends with trailing
+            # indentation, row2 starts with a leading newline -- together
+            # that's a blank line), which is exactly what makes Streamlit's
+            # Markdown renderer treat everything after row 1 as a literal
+            # code block. Stripping each fragment means concatenation adds
+            # zero extra whitespace, so no blank line can ever form.
             rows_html += f"""
             <tr>
                 <td class="sx-mono">{c['case_id']}</td>
-                <td>{c['case_type']}</td>
+                <td>{chip(c['case_type'])}</td>
                 <td>{pri_badge}</td>
                 <td>{status_badge}</td>
                 <td class="sx-mono">{str(c['opened_at'])[:10]}</td>
                 <td class="sx-mono">{mod}</td>
             </tr>
-            """
+            """.strip()
         st.markdown(
             f"""
             <table class="sx-table">
@@ -178,7 +195,7 @@ with left:
                 </tr></thead>
                 <tbody>{rows_html}</tbody>
             </table>
-            """,
+            """.strip(),
             unsafe_allow_html=True,
         )
     else:
@@ -212,7 +229,7 @@ with right:
                     </div>
                 </div>
             </div>
-            """
+            """.strip()
         st.markdown(items_html, unsafe_allow_html=True)
     else:
         st.info("No activity yet.")

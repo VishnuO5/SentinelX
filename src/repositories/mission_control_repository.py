@@ -8,6 +8,7 @@ No hardcoded numbers — everything comes from the database.
 from __future__ import annotations
 
 import sys
+from datetime import timedelta
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -85,19 +86,34 @@ class MissionControlRepository:
 
         return [dict(r) for r in rows]
 
-    def get_case_volume_trend(self) -> list:
+    def get_case_volume_trend(self, days: int | None = None) -> list:
         """Cases opened per week, real dates from the cases table --
-        powers the Mission Control trend chart."""
+        powers the Mission Control trend chart. `days` limits the window
+        to the last N days relative to config.CURRENT_TIME (e.g. 30/60/90);
+        None returns the full history."""
         conn = db.connect()
 
-        rows = conn.execute(
-            """
-            SELECT strftime('%Y-%W', opened_at) AS week, COUNT(*) AS count
-            FROM cases
-            GROUP BY week
-            ORDER BY week ASC
-            """
-        ).fetchall()
+        if days is not None:
+            cutoff = (config.CURRENT_TIME - timedelta(days=days)).strftime("%Y-%m-%d")
+            rows = conn.execute(
+                """
+                SELECT strftime('%Y-%W', opened_at) AS week, COUNT(*) AS count
+                FROM cases
+                WHERE opened_at >= ?
+                GROUP BY week
+                ORDER BY week ASC
+                """,
+                (cutoff,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT strftime('%Y-%W', opened_at) AS week, COUNT(*) AS count
+                FROM cases
+                GROUP BY week
+                ORDER BY week ASC
+                """
+            ).fetchall()
 
         return [dict(r) for r in rows]
 
