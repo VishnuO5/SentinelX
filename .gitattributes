@@ -1,0 +1,10 @@
+# Normalize line endings for text files so diffs stay clean across
+# Windows (CRLF) and Linux/macOS (LF) checkouts.
+* text=auto eol=lf
+
+# Binary files -- never touch line endings, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.db binary
+*.pyc binary
