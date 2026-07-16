@@ -85,7 +85,7 @@ signal_rows = [(n, v) for n, v in signal_rows if v is not None]
 
 prev_col1, prev_col2 = st.columns([3, 2])
 with prev_col1:
-    st.caption("Signal breakdown (page 2 of the PDF)")
+    st.caption("Signal breakdown — one of three charts included in the PDF")
     if signal_rows:
         signal_rows.sort(key=lambda r: r[1])
         fig = go.Figure(go.Bar(
@@ -119,6 +119,18 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown(f'<div class="sx-card">{card_header("🖨️", "Generate report")}', unsafe_allow_html=True)
 st.caption("Pulls evidence, signal scores, and the AI investigator's assessment into a single downloadable PDF.")
+st.markdown(
+    """
+    <div style="display:flex; gap:16px; flex-wrap:wrap; margin:0.5rem 0 0.8rem 0; font-size:0.85rem; color:var(--sx-muted);">
+        <span>📊 Composite risk meter</span>
+        <span>📈 Signal breakdown chart</span>
+        <span>🥧 Report reasons chart</span>
+        <span>🧠 AI assessment</span>
+        <span>📝 Notes &amp; audit trail</span>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 if st.button("Generate PDF Report", type="primary"):
     with st.spinner("Building report — pulling evidence, signals, and AI assessment..."):
