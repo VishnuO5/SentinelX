@@ -390,6 +390,7 @@ h1, h2, h3, h4 {
 }
 
 .sx-kpi {
+    position: relative;
     background: var(--sx-surface);
     border: 1px solid var(--sx-border);
     border-left: 3px solid var(--sx-accent, var(--sx-brand));
@@ -402,6 +403,37 @@ h1, h2, h3, h4 {
 .sx-kpi:hover {
     box-shadow: var(--sx-shadow-md);
     transform: translateY(-1px);
+}
+
+/* Hover-only "static, not clickable" badge. The card still glows/lifts
+   on hover for visual polish, but this small circled-info mark tells a
+   recruiter clicking is a dead end before they try it -- shown only on
+   hover so it doesn't clutter the card at rest. */
+.sx-kpi::after {
+    content: "\24D8"; /* circled small letter i -- reads as "info", not "button" */
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    line-height: 1;
+    color: var(--sx-muted);
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+}
+
+.sx-kpi:hover::after {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .sx-kpi .sx-kpi-label {
@@ -561,6 +593,37 @@ h1, h2, h3, h4 {
     box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 8px 22px rgba(124, 58, 237, 0.22),
                 0 2px 10px rgba(225, 29, 72, 0.15);
     animation-play-state: paused;
+}
+
+/* Hover-only "static, not clickable" badge -- same reasoning as .sx-kpi
+   above. These st.metric tiles glow/lift on hover for polish but do
+   nothing when clicked, so this mark tells a recruiter that up front. */
+[data-testid="stMetric"]::after {
+    content: "\24D8";
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    line-height: 1;
+    color: var(--sx-muted);
+    background: var(--sx-surface);
+    border: 1px solid var(--sx-border);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+[data-testid="stMetric"]:hover::after {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @keyframes sx-metric-breathe {
