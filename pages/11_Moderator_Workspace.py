@@ -192,7 +192,7 @@ if audit:
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
     )
-    st.plotly_chart(tfig, use_container_width=True)
+    st.plotly_chart(tfig, width='stretch')
     st.caption("Hover a point for the action, moderator, and timestamp. Left = earliest, right = most recent.")
 
     st.dataframe(

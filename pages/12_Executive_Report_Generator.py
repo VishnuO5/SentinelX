@@ -99,7 +99,7 @@ with prev_col1:
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
             font=dict(color=theme.CHART_NEUTRAL),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     else:
         st.caption("No signal score computed for this account yet.")
 

@@ -126,7 +126,7 @@ if selected_case_id:
                 paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                 font=dict(color=theme.CHART_NEUTRAL),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             st.caption("Each bar is a real computed signal for this account -- not illustrative. This is what the recommendation below is grounded in.")
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -187,7 +187,7 @@ if selected_case_id:
                     ))
                     gfig.update_layout(height=110, margin=dict(l=10, r=10, t=10, b=0),
                                         paper_bgcolor="rgba(0,0,0,0)")
-                    st.plotly_chart(gfig, use_container_width=True)
+                    st.plotly_chart(gfig, width='stretch')
                     st.caption(f"Confidence: **{confidence_label}**")
                 else:
                     st.metric("Confidence", confidence_label)

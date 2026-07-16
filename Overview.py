@@ -508,6 +508,37 @@ def render_overview() -> None:
             with module_cols[i % 4]:
                 st.page_link(target_page, label=name, icon=icon, help=desc, width="stretch")
 
+        # ---------------------------------------------------------------------
+        # Footer -- source, live demo, and portfolio links. This is the one
+        # place in the app that assumes a reader may want to leave it for
+        # the underlying code or the person who built it.
+        # ---------------------------------------------------------------------
+        st.markdown(
+            """
+            <div style="margin-top: 2.2rem; padding-top: 1.2rem; border-top: 1px solid var(--sx-border);
+                        display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem;">
+                <div style="font-size:0.78rem; color:var(--sx-muted);">
+                    SentinelX &middot; built by Vishnu Prasath M K
+                </div>
+                <div style="display:flex; gap:1.4rem; flex-wrap:wrap;">
+                    <a href="https://github.com/VishnuO5/SentinelX" target="_blank"
+                       style="font-size:0.8rem; color:var(--sx-brand); text-decoration:none; font-weight:600;">
+                        View Source on GitHub &rarr;
+                    </a>
+                    <a href="https://sentinelx-tns.streamlit.app" target="_blank"
+                       style="font-size:0.8rem; color:var(--sx-brand); text-decoration:none; font-weight:600;">
+                        Live Demo &rarr;
+                    </a>
+                    <a href="https://sites.google.com/view/vishnuprasath" target="_blank"
+                       style="font-size:0.8rem; color:var(--sx-brand); text-decoration:none; font-weight:600;">
+                        Portfolio &rarr;
+                    </a>
+                </div>
+            </div>
+            """.strip(),
+            unsafe_allow_html=True,
+        )
+
 
 
 # ===========================================================================

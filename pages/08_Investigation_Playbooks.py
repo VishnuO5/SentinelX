@@ -86,7 +86,7 @@ else:
         pie.update_layout(height=220, margin=dict(l=10, r=10, t=10, b=10),
                            paper_bgcolor="rgba(0,0,0,0)",
                            font=dict(color=theme.CHART_NEUTRAL), showlegend=True)
-        st.plotly_chart(pie, use_container_width=True)
+        st.plotly_chart(pie, width='stretch')
 
     with chart_col2:
         st.caption("Priority mix")
@@ -104,7 +104,7 @@ else:
         bar.update_layout(height=220, margin=dict(l=10, r=10, t=10, b=10),
                            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                            font=dict(color=theme.CHART_NEUTRAL))
-        st.plotly_chart(bar, use_container_width=True)
+        st.plotly_chart(bar, width='stretch')
 
 st.markdown("</div>", unsafe_allow_html=True)
 
